@@ -12,7 +12,6 @@ type GiftProps = {
 export default function Gift({ onReveal }: GiftProps) {
   const [finished, setFinished] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [opening, setOpening] = useState(false);
 
   // Hidden 10-second timer
   useEffect(() => {
@@ -24,9 +23,9 @@ export default function Gift({ onReveal }: GiftProps) {
   }, []);
 
   function revealGift() {
-    setOpening(true);
     setShowConfetti(true);
 
+    // Instant fullscreen confetti burst
     confetti({
       particleCount: 350,
       spread: 180,
@@ -35,13 +34,12 @@ export default function Gift({ onReveal }: GiftProps) {
       },
     });
 
-    setTimeout(() => {
-      onReveal();
-    }, 1800);
+    // Go straight to the Reel surprise immediately
+    onReveal();
   }
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg mx-auto text-center">
+    <div className="w-full max-w-md sm:max-w-lg mx-auto text-center px-4">
       {showConfetti && (
         <Confetti
           recycle={false}
@@ -49,79 +47,54 @@ export default function Gift({ onReveal }: GiftProps) {
         />
       )}
 
-      <motion.h1
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-3xl sm:text-5xl font-bold text-pink-600"
-      >
-        🎁 Your Gift
-      </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="mt-4 text-base sm:text-lg text-gray-600"
-      >
-        Finally... You reached the gift 😄
-      </motion.p>
-
-      {/* Intro Stage: Playful banter header visible immediately */}
-      {!opening && (
-        <>
-          <motion.h2
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="mt-6 text-2xl sm:text-3xl font-bold"
-          >
-            Arreeee... 😌
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="mt-3 text-lg sm:text-xl"
-          >
-            Itna Pyaara Sa Friend Hu...
-          </motion.p>
-
-          <motion.h2
-            animate={{ scale: [1, 1.06, 1] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="mt-4 text-3xl sm:text-4xl font-bold text-pink-600"
-          >
-            Wahi Gift Hai ❤️😂
-          </motion.h2>
-        </>
-      )}
-
-      {/* Main Container with dynamic stages */}
+      {/* Main Container with streamlined stages */}
       <AnimatePresence mode="wait">
-        {/* STAGE 1: Bouncing Box & Preparation Text (Hidden 10s Timer is ticking) */}
-        {!finished && !opening && (
+        {/* STAGE 1: Pure immediate landing state with bouncing image1.png */}
+        {!finished && (
           <motion.div
             key="waiting-stage"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="mt-12"
+            transition={{ duration: 0.5 }}
+            className="mt-6 flex flex-col items-center"
           >
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              Arreeee... 😌
+            </h2>
+
+            <p className="mt-2 text-lg sm:text-xl text-gray-700">
+              Itna Pyaara Sa Friend Hu...
+            </p>
+
+            <motion.h2
+              animate={{ scale: [1, 1.06, 1] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+              className="mt-3 text-3xl sm:text-4xl font-bold text-pink-600"
+            >
+              Wahi Gift Hai ❤️😂
+            </motion.h2>
+
             <motion.div
               animate={{
-                y: [0, -10, 0],
+                y: [0, -12, 0],
                 rotate: [-3, 3, -3],
               }}
               transition={{
                 repeat: Infinity,
                 duration: 1.5,
+                ease: "easeInOut"
               }}
-              className="text-[120px] select-none"
+              className="w-48 h-48 sm:w-56 sm:h-56 select-none mt-8"
             >
-              🎁
+              <img
+                src="/image1.jpg"
+                alt="Surprise Preview"
+                className="w-full h-full object-cover rounded-2xl shadow-xl border-4 border-white"
+              />
             </motion.div>
-            <p className="mt-8 text-lg text-gray-600">
+
+            <p className="mt-8 text-lg font-medium text-gray-600">
               Preparing your surprise...
             </p>
             <p className="mt-2 text-pink-500 italic">
@@ -130,15 +103,15 @@ export default function Gift({ onReveal }: GiftProps) {
           </motion.div>
         )}
 
-        {/* STAGE 2: 10 Seconds Pass -> Shaking Gift & Surprise Sequence */}
-        {finished && !opening && (
+        {/* STAGE 2: 10 Seconds Pass -> Straight to shaking box and Real Gift reveal */}
+        {finished && (
           <motion.div
             key="reveal-stage"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
-            className="mt-12"
+            className="mt-12 flex flex-col items-center"
           >
             <motion.div
               animate={{
@@ -149,7 +122,7 @@ export default function Gift({ onReveal }: GiftProps) {
                 duration: 0.6,
                 repeatDelay: 2,
               }}
-              className="text-[120px] select-none"
+              className="text-[120px] select-none leading-none"
             >
               🎁
             </motion.div>
@@ -157,7 +130,7 @@ export default function Gift({ onReveal }: GiftProps) {
             <motion.h2
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.2 }}
               className="mt-8 text-4xl font-bold text-pink-600"
             >
               😂 Gussa Mat Ho...
@@ -166,7 +139,7 @@ export default function Gift({ onReveal }: GiftProps) {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
+              transition={{ delay: 0.8 }}
               className="mt-5 text-xl text-gray-700"
             >
               Itni bhi expectations mat rakhna 😅
@@ -175,8 +148,8 @@ export default function Gift({ onReveal }: GiftProps) {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.8 }}
-              className="mt-3 text-gray-500"
+              transition={{ delay: 1.4 }}
+              className="mt-3 text-gray-500 font-medium"
             >
               Gift chhota hai...
               <br />
@@ -193,27 +166,6 @@ export default function Gift({ onReveal }: GiftProps) {
             >
               🎁 Reveal My Surprise ❤️
             </motion.button>
-          </motion.div>
-        )}
-
-        {/* STAGE 3: Box Explodes / Scales out when clicked */}
-        {opening && (
-          <motion.div
-            key="opening-stage"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-12"
-          >
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 0],
-                rotate: [0, 20, -20, 0],
-              }}
-              transition={{ duration: 1.4 }}
-              className="text-[120px] select-none"
-            >
-              💥
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
