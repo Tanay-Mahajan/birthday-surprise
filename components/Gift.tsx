@@ -10,170 +10,603 @@ type GiftProps = {
 };
 
 export default function Gift({ onReveal }: GiftProps) {
-  const [seconds, setSeconds] = useState(15);
+
+  const TOTAL = 15;
+
+  const [seconds, setSeconds] = useState(TOTAL);
+
   const [finished, setFinished] = useState(false);
+
   const [showConfetti, setShowConfetti] = useState(false);
 
+  const [opening, setOpening] = useState(false);
+
   useEffect(() => {
+
     if (finished) return;
 
-    if (seconds === 0) {
+    if (seconds <= 0) {
+
       setFinished(true);
+
       return;
+
     }
 
     const timer = setTimeout(() => {
-      setSeconds((prev) => prev - 1);
+
+      setSeconds((s) => s - 1);
+
     }, 1000);
 
     return () => clearTimeout(timer);
+
   }, [seconds, finished]);
 
   function revealGift() {
+
+    setOpening(true);
+
     setShowConfetti(true);
 
     confetti({
-      particleCount: 300,
+
+      particleCount: 350,
+
       spread: 180,
+
       origin: {
+
         y: 0.6,
+
       },
+
     });
 
     setTimeout(() => {
+
       onReveal();
-    }, 1500);
+
+    }, 1800);
+
   }
 
-  const progress = ((15 - seconds) / 15) * 100;
+  const progress = ((TOTAL - seconds) / TOTAL) * 100;
+
+  const circumference = 2 * Math.PI * 70;
+
+  const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className="w-[750px] max-w-full text-center">
+
+    <div className="w-full max-w-md sm:max-w-lg mx-auto text-center">
 
       {showConfetti && (
+
         <Confetti
+
           recycle={false}
-          numberOfPieces={350}
+
+          numberOfPieces={400}
+
         />
+
       )}
 
       <motion.h1
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="text-4xl sm:text-5xl md:text-6xl font-bold text-pink-600"
+
+        initial={{
+
+          opacity:0,
+
+          y:-30,
+
+        }}
+
+        animate={{
+
+          opacity:1,
+
+          y:0,
+
+        }}
+
+        className="
+        text-3xl
+        sm:text-5xl
+        font-bold
+        text-pink-600
+        "
+
       >
-        🎁 Gift Time
+
+        🎁 Your Gift
+
       </motion.h1>
 
       <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: .4 }}
-        className="text-3xl mt-8"
+
+        initial={{
+
+          opacity:0,
+
+        }}
+
+        animate={{
+
+          opacity:1,
+
+        }}
+
+        transition={{
+
+          delay:.4,
+
+        }}
+
+        className="
+        mt-4
+        text-base
+        sm:text-lg
+        text-gray-600
+        "
+
       >
-        Arree...
+
+        Finally...
+        You reached the gift 😄
+
       </motion.p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: .8 }}
-        className="text-4xl mt-4 font-bold"
+      {/* Gift Box */}
+
+      <motion.div
+
+        animate={
+
+          opening
+
+            ? {
+
+                scale: [1, 1.15, 0],
+
+                rotate: [0, 20, -20, 0],
+
+              }
+
+            : {
+
+                rotate: [-4, 4, -4],
+
+                y: [0, -8, 0],
+
+              }
+
+        }
+
+        transition={
+
+          opening
+
+            ? {
+
+                duration: 1.4,
+
+              }
+
+            : {
+
+                repeat: Infinity,
+
+                duration: 1.2,
+
+              }
+
+        }
+
+        className="
+        mt-10
+        text-[110px]
+        "
+
       >
+
+        🎁
+
+      </motion.div>
+
+      <motion.h2
+
+        initial={{
+
+          opacity:0,
+
+        }}
+
+        animate={{
+
+          opacity:1,
+
+        }}
+
+        transition={{
+
+          delay:.8,
+
+        }}
+
+        className="
+        mt-6
+        text-2xl
+        sm:text-3xl
+        font-bold
+        "
+
+      >
+
+        Arreeee... 😌
+
+      </motion.h2>
+
+      <motion.p
+
+        initial={{
+
+          opacity:0,
+
+        }}
+
+        animate={{
+
+          opacity:1,
+
+        }}
+
+        transition={{
+
+          delay:1.2,
+
+        }}
+
+        className="
+        mt-3
+        text-lg
+        sm:text-xl
+        "
+
+      >
+
         Itna Pyaara Sa Friend Hu...
+
       </motion.p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="text-4xl mt-3 text-pink-600 font-bold"
+      <motion.h2
+
+        animate={{
+
+          scale:[1,1.06,1],
+
+        }}
+
+        transition={{
+
+          repeat:Infinity,
+
+          duration:1.5,
+
+        }}
+
+        className="
+        mt-4
+        text-3xl
+        sm:text-4xl
+        font-bold
+        text-pink-600
+        "
+
       >
-        Wahi Gift Hai 😌❤️
-      </motion.p>
 
-      {!finished && (
-        <>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-            className="mt-12 text-2xl"
-          >
-            😂 Mood Off Mat Karo...
-          </motion.p>
+        Wahi Gift Hai ❤️😂
 
-          <motion.p
-            animate={{
-              scale: [1, 1.15, 1],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 1,
-            }}
-            className="text-7xl mt-8"
-          >
-            ⏳
-          </motion.p>
-
-          <p className="text-4xl sm:text-5xl md:text-6xl font-bold mt-3">
-            {seconds}
-          </p>
-
-          <div className="w-full h-5 bg-pink-100 rounded-full mt-10 overflow-hidden">
-
-            <motion.div
-              animate={{
-                width: `${progress}%`,
-              }}
-              className="h-full bg-pink-500"
-            />
-
-          </div>
-
-          <p className="mt-4 text-gray-600">
-            Secret gift is loading...
-          </p>
-        </>
-      )}
+      </motion.h2>
 
       <AnimatePresence>
 
-        {finished && (
+        {!finished && (
 
           <motion.div
-            initial={{ opacity: 0, scale: .5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
+
+            initial={{
+
+              opacity:0,
+
+            }}
+
+            animate={{
+
+              opacity:1,
+
+            }}
+
+            className="mt-10"
+
           >
 
-            <h2 className="text-4xl mt-10 font-bold text-pink-600">
-              😂 Okay Okay...
-            </h2>
+            <p
 
-            <p className="text-2xl mt-5">
-              Ek Secret Gift Hai...
+              className="
+              text-lg
+              text-gray-700
+              "
+
+            >
+
+              Okay Okay...
+
+              <br/>
+
+              Mood Off Mat Karo 😅
+
             </p>
 
-            <motion.button
-              whileHover={{
-                scale: 1.08,
-              }}
-              whileTap={{
-                scale: .95,
-              }}
-              onClick={revealGift}
-              className="mt-10 px-12 py-5 rounded-full bg-pink-500 text-white text-2xl shadow-xl"
+            <div
+
+              className="
+              mt-8
+              flex
+              justify-center
+              "
+
             >
-              🎁 Reveal Gift
-            </motion.button>
 
-          </motion.div>
+              <svg
 
-        )}
+                width="170"
 
-      </AnimatePresence>
+                height="170"
 
-    </div>
-  );
-}
+              >
+
+                <circle
+
+                  cx="85"
+
+                  cy="85"
+
+                  r="70"
+
+                  fill="none"
+
+                  stroke="#fbcfe8"
+
+                  strokeWidth="12"
+
+                />
+
+                <motion.circle
+
+                  cx="85"
+
+                  cy="85"
+
+                  r="70"
+
+                  fill="none"
+
+                  stroke="#ec4899"
+
+                  strokeWidth="12"
+
+                  strokeLinecap="round"
+
+                  strokeDasharray={circumference}
+
+                  animate={{
+
+                    strokeDashoffset: offset,
+
+                  }}
+
+                  style={{
+
+                    rotate:-90,
+
+                    transformOrigin:"50% 50%",
+
+                  }}
+
+                />
+
+                <text
+
+                  x="50%"
+
+                  y="52%"
+
+                  dominantBaseline="middle"
+
+                  textAnchor="middle"
+
+                  fontSize="42"
+
+                  fontWeight="bold"
+
+                  fill="#db2777"
+
+                >
+
+                  {seconds}
+
+                </text>
+
+              </svg>
+
+            </div>
+                        <p
+                          className="
+                          mt-6
+                          text-gray-500
+                          text-sm
+                          sm:text-base
+                          "
+                        >
+                          Secret gift is loading...
+                        </p>
+
+                      </motion.div>
+
+                    )}
+
+                  </AnimatePresence>
+
+                  <AnimatePresence>
+
+                    {finished && (
+
+                      <motion.div
+
+                        initial={{
+                          opacity:0,
+                          scale:.7,
+                          y:20,
+                        }}
+
+                        animate={{
+                          opacity:1,
+                          scale:1,
+                          y:0,
+                        }}
+
+                        transition={{
+                          duration:.8,
+                        }}
+
+                        className="mt-10"
+
+                      >
+
+                        <motion.h2
+
+                          animate={{
+                            scale:[1,1.05,1],
+                          }}
+
+                          transition={{
+                            repeat:Infinity,
+                            duration:1.8,
+                          }}
+
+                          className="
+                          text-3xl
+                          sm:text-4xl
+                          font-bold
+                          text-pink-600
+                          "
+
+                        >
+
+                          😂 Okay Okay...
+
+                        </motion.h2>
+
+                        <p
+
+                          className="
+                          mt-4
+                          text-lg
+                          sm:text-xl
+                          text-gray-700
+                          "
+
+                        >
+
+                          Itna bhi mood off mat karo...
+
+                        </p>
+
+                        <p
+
+                          className="
+                          mt-2
+                          text-gray-500
+                          "
+
+                        >
+
+                          Chalo...
+                          Bata hi deta hoon 😌
+
+                        </p>
+
+                        <motion.button
+
+                          whileHover={{
+                            scale:1.05,
+                          }}
+
+                          whileTap={{
+                            scale:.96,
+                          }}
+
+                          onClick={revealGift}
+
+                          className="
+                          mt-10
+                          w-full
+                          rounded-full
+                          bg-gradient-to-r
+                          from-pink-500
+                          via-rose-500
+                          to-purple-500
+                          py-4
+                          text-white
+                          text-lg
+                          sm:text-xl
+                          font-bold
+                          shadow-2xl
+                          "
+
+                        >
+
+                          🎁 Reveal My Real Gift
+
+                        </motion.button>
+
+                        <motion.p
+
+                          initial={{
+                            opacity:0,
+                          }}
+
+                          animate={{
+                            opacity:1,
+                          }}
+
+                          transition={{
+                            delay:.8,
+                          }}
+
+                          className="
+                          mt-6
+                          text-sm
+                          italic
+                          text-pink-500
+                          "
+
+                        >
+
+                          I hope this little surprise makes you smile ❤️
+
+                        </motion.p>
+
+                      </motion.div>
+
+                    )}
+
+                  </AnimatePresence>
+
+                </div>
+
+              );
+
+            }

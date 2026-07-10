@@ -32,7 +32,7 @@ export default function Letter({ onContinue }: Props) {
 
   return (
 
-    <div className="w-full max-w-md sm:max-w-2xl mx-auto text-center">
+    <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl mx-auto text-center px-2">
 
       <AnimatePresence>
 
@@ -69,8 +69,9 @@ export default function Letter({ onContinue }: Props) {
               }}
 
               className="
-              text-3xl
-              sm:text-5xl
+              text-2xl
+              sm:text-3xl
+              md:text-5xl
               font-bold
               text-pink-600
               "
@@ -102,8 +103,10 @@ export default function Letter({ onContinue }: Props) {
               className="
               relative
               mt-10
-              w-72
-              h-48
+              w-56
+              h-36
+              sm:w-72
+              sm:h-48
               cursor-pointer
               "
 
@@ -209,7 +212,9 @@ export default function Letter({ onContinue }: Props) {
 
           className="
           mt-8
-          h-[70vh]
+          h-[60vh]
+          sm:h-[65vh]
+          md:h-[70vh]
           w-full
           bg-[#fffdf8]
           rounded-3xl
@@ -225,12 +230,14 @@ export default function Letter({ onContinue }: Props) {
 
           {/* Header */}
 
-          <div className="border-b border-pink-200 p-5">
+          <div className="border-b border-pink-200 p-3 sm:p-5">
 
             <h2
 
               className="
-              text-4xl
+              text-2xl
+              sm:text-3xl
+              md:text-4xl
               text-pink-600
               "
 
@@ -253,8 +260,9 @@ export default function Letter({ onContinue }: Props) {
             className="
             flex-1
             overflow-y-auto
-            px-6
-            py-5
+            px-4
+            sm:px-6
+            py-3
             text-left
             "
 
@@ -323,8 +331,11 @@ export default function Letter({ onContinue }: Props) {
                           className="
                           whitespace-pre-line
                           text-gray-700
-                          leading-9
-                          text-lg
+                          leading-7
+                          sm:leading-8
+                          text-sm
+                          sm:text-base
+                          md:text-lg
                           "
 
                         />
@@ -344,7 +355,7 @@ export default function Letter({ onContinue }: Props) {
                                   border-pink-200
                                   bg-white/90
                                   backdrop-blur-md
-                                  p-5
+                                  p-3 sm:p-5
                                   shrink-0
                                 "
                               >
@@ -368,9 +379,10 @@ export default function Letter({ onContinue }: Props) {
                                     from-pink-500
                                     to-rose-500
                                     text-white
-                                    py-4
-                                    text-lg
-                                    sm:text-xl
+                                    py-3
+                                    sm:py-4
+                                    text-base
+                                    sm:text-lg
                                     font-bold
                                     shadow-xl
                                     hover:shadow-2xl

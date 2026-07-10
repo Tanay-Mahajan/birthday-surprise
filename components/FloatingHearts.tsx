@@ -1,21 +1,35 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 export default function FloatingHearts() {
   return (
-    <>
-      {Array.from({ length: 20 }).map((_, i) => (
-        <div
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {Array.from({ length: 18 }).map((_, i) => (
+        <motion.div
           key={i}
-          className="heart"
-          style={{
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${i * .5}s`,
-            animationDuration: `${6 + Math.random() * 5}s`,
+          className="absolute text-2xl"
+          initial={{
+            x: `${Math.random() * 100}vw`,
+            y: "110vh",
+            scale: 0.6 + Math.random() * 0.8,
+            opacity: 0,
+          }}
+          animate={{
+            y: "-15vh",
+            opacity: [0, 1, 1, 0],
+            rotate: [-20, 20, -20],
+          }}
+          transition={{
+            duration: 8 + Math.random() * 6,
+            delay: Math.random() * 5,
+            repeat: Infinity,
+            ease: "linear",
           }}
         >
           💖
-        </div>
+        </motion.div>
       ))}
-    </>
+    </div>
   );
 }

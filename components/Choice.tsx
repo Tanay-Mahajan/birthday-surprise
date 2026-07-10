@@ -9,43 +9,162 @@ type Props = {
 
 export default function Choice({ onLetter, onGift }: Props) {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100 }}
-      transition={{ duration: 0.7 }}
-      className="flex flex-col items-center"
-    >
-      <h1 className="text-5xl font-bold text-pink-600">
-        What do you want first? 💖
-      </h1>
+    <div className="w-full text-center">
 
-      <p className="mt-4 text-gray-600 text-lg">
-        Choose one...
-      </p>
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-3xl sm:text-4xl font-bold text-pink-600"
+      >
+        🎉 Your Surprise Awaits
+      </motion.h2>
 
-      <div className="flex gap-8 mt-12">
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="mt-4 text-gray-600 text-base sm:text-lg"
+      >
+        Which one would you like to open first?
+      </motion.p>
 
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: .95 }}
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+        {/* Letter Card */}
+
+        <motion.div
+          whileHover={{
+            y: -8,
+            scale: 1.03,
+          }}
+          whileTap={{
+            scale: 0.97,
+          }}
           onClick={onLetter}
-          className="bg-pink-500 text-white px-10 py-5 rounded-3xl text-2xl shadow-xl"
+          className="
+            cursor-pointer
+            rounded-3xl
+            bg-white/60
+            backdrop-blur-xl
+            border
+            border-pink-200
+            shadow-xl
+            p-6
+            transition-all
+          "
         >
-          💌 Letter
-        </motion.button>
 
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: .95 }}
+          <motion.div
+            animate={{
+              rotate: [-5, 5, -5],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 2,
+            }}
+            className="text-6xl"
+          >
+            💌
+          </motion.div>
+
+          <h3 className="mt-5 text-2xl font-bold text-pink-600">
+            Letter
+          </h3>
+
+          <p className="mt-3 text-gray-600 text-sm sm:text-base">
+            Read a heartfelt birthday message first.
+          </p>
+
+          <button
+            className="
+              mt-6
+              w-full
+              rounded-full
+              bg-pink-500
+              text-white
+              py-3
+              font-semibold
+              hover:bg-pink-600
+            "
+          >
+            Open Letter ❤️
+          </button>
+
+        </motion.div>
+
+        {/* Gift Card */}
+
+        <motion.div
+          whileHover={{
+            y: -8,
+            scale: 1.03,
+          }}
+          whileTap={{
+            scale: 0.97,
+          }}
           onClick={onGift}
-          className="bg-purple-500 text-white px-10 py-5 rounded-3xl text-2xl shadow-xl"
+          className="
+            cursor-pointer
+            rounded-3xl
+            bg-white/60
+            backdrop-blur-xl
+            border
+            border-pink-200
+            shadow-xl
+            p-6
+            transition-all
+          "
         >
-          🎁 Gift
-        </motion.button>
+
+          <motion.div
+            animate={{
+              rotate: [-8, 8, -8],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 1.5,
+            }}
+            className="text-6xl"
+          >
+            🎁
+          </motion.div>
+
+          <h3 className="mt-5 text-2xl font-bold text-pink-600">
+            Gift
+          </h3>
+
+          <p className="mt-3 text-gray-600 text-sm sm:text-base">
+            Curious? Let's see what's inside...
+          </p>
+
+          <button
+            className="
+              mt-6
+              w-full
+              rounded-full
+              bg-purple-500
+              text-white
+              py-3
+              font-semibold
+              hover:bg-purple-600
+            "
+          >
+            Open Gift 🎀
+          </button>
+
+        </motion.div>
 
       </div>
 
-    </motion.div>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="mt-8 text-sm text-gray-500 italic"
+      >
+        💡 Hint: One of these choices might make the other even more special...
+      </motion.p>
+
+    </div>
   );
 }
