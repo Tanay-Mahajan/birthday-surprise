@@ -78,6 +78,8 @@ export default function PhotoPopSurprise({
 
     }
 
+    navigator.vibrate?.(40);
+
     setFlash(true);
 
     setTimeout(() => {
@@ -286,10 +288,15 @@ export default function PhotoPopSurprise({
                       className="absolute inset-0 z-10"
 
                       animate={{
-                        scale: .92,
-                        rotate: -7,
-                        y: 22,
-                        opacity: .55,
+
+                      scale:.95,
+
+                      rotate:-6,
+
+                      y:14,
+
+                      opacity:.65,
+
                       }}
 
                       transition={{
@@ -319,10 +326,15 @@ export default function PhotoPopSurprise({
                       className="absolute inset-0 z-20"
 
                       animate={{
-                        scale: .96,
-                        rotate: 5,
-                        y: 10,
-                        opacity: .82,
+
+                      scale:index===photos.length-1?.96:.98,
+
+                      rotate:4,
+
+                      y:5,
+
+                      opacity:.9,
+
                       }}
 
                       transition={{
@@ -354,48 +366,103 @@ export default function PhotoPopSurprise({
                       className="absolute inset-0 z-30"
 
                       initial={{
-                        opacity: 0,
-                        scale: .72,
-                        y: 150,
-                        rotate: rotations[index],
+
+                        opacity:0,
+
+                        scale:.65,
+
+                        y:220,
+
+                        rotate:rotations[index]-8,
+
                       }}
 
                       animate={{
-                        opacity: 1,
-                        scale: 1,
-                        y: 0,
-                        rotate: rotations[index],
+
+                        opacity:1,
+
+                        scale:1,
+
+                        y:[0,-5,0],
+
+                        rotate:rotations[index],
+
                       }}
 
                       exit={{
-                        opacity: 0,
-                        scale: .92,
-                        rotate: rotations[index] + 18,
-                        x: 260,
-                        y: -220,
+
+                      opacity:0,
+
+                      scale:.88,
+
+                      rotate:rotations[index]+30,
+
+                      x:360,
+
+                      y:-300,
+
+                      transition:{
+
+                      duration:.55,
+
+                      ease:"easeInOut",
+
+                      }
+
                       }}
 
                       transition={{
-                        type: "spring",
-                        stiffness: 120,
-                        damping: 18,
+
+                        y:{
+
+                          duration:3,
+
+                          repeat:Infinity,
+
+                          ease:"easeInOut",
+
+                        },
+
+                        default:{
+
+                          type:"spring",
+
+                          stiffness:110,
+
+                          damping:15,
+
+                        }
+
                       }}
 
                       whileTap={{
-                        scale: .97,
+
+                        scale:.96,
+
+                        rotate:rotations[index]+4,
+
+                        y:-12,
+
                       }}
 
                     >
 
-                      <PhotoCard
-
-                        src={photos[index]}
-
-                        caption=""
-
-                        rotation={rotations[index]}
-
-                      />
+                      <motion.div
+                        whileHover={{
+                          rotate: rotations[index] + 2,
+                          y: -6,
+                          scale: 1.02,
+                        }}
+                        transition={{
+                          duration: 0.25,
+                        }}
+                      >
+                        <PhotoCard
+                          src={photos[index]}
+                          caption=""
+                          rotation={rotations[index]}
+                        />
+                      </motion.div>
 
                     </motion.div>
 
@@ -405,32 +472,60 @@ export default function PhotoPopSurprise({
 
                 {/* Caption */}
 
-                {!showEnding && (
+               {/* Caption */}
 
-                  <div
-                    className="
-                      absolute
+               {!showEnding && (
 
-                      -bottom-12
+                 <div
+                   className="
+                     absolute
 
-                      left-0
-                      right-0
+                     -bottom-16
 
-                      flex
-                      justify-center
-                    "
-                  >
+                     left-0
+                     right-0
 
-                    <PhotoCaption
+                     flex
+                     flex-col
+                     items-center
+                   "
+                 >
 
-                      text={captions[index]}
+                   <PhotoCaption text={captions[index]} />
 
-                    />
+                   <motion.p
 
-                  </div>
+                     animate={{
+                       opacity: [0.3, 0.9, 0.3],
+                     }}
 
-                )}
+                     transition={{
+                       repeat: Infinity,
+                       duration: 2,
+                     }}
 
+                     className="
+                       mt-3
+
+                       text-xs
+                       sm:text-sm
+
+                       tracking-widest
+
+                       text-pink-600
+
+                       font-medium
+                     "
+
+                   >
+
+                     👆 Tap photo or wait...
+
+                   </motion.p>
+
+                 </div>
+
+               )}
               </div>
                     {/* Ending Screen */}
 
