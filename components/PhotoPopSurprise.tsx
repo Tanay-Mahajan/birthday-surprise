@@ -50,19 +50,51 @@ export default function PhotoPopSurprise({
 
   const [showEnding, setShowEnding] = useState(false);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timer = useRef<NodeJS.Timeout | null>(null);
 
-  function resetTimer() {
+  /* ---------- preload images ---------- */
 
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
+  useEffect(() => {
+
+    photos.forEach((src) => {
+
+      const img = new Image();
+
+      img.src = src;
+
+    });
+
+  }, []);
+
+  /* ---------- auto timer ---------- */
+
+  useEffect(() => {
+
+    if (showEnding) return;
+
+    if (timer.current) {
+
+      clearTimeout(timer.current);
+
     }
 
-    timerRef.current = setTimeout(() => {
+    timer.current = setTimeout(() => {
+
       nextPhoto();
+
     }, 3200);
 
-  }
+    return () => {
+
+      if (timer.current) {
+
+        clearTimeout(timer.current);
+
+      }
+
+    };
+
+  }, [index, showEnding]);
 
   function nextPhoto() {
 
@@ -78,659 +110,554 @@ export default function PhotoPopSurprise({
 
     }
 
-    navigator.vibrate?.(40);
+    navigator.vibrate?.(35);
 
     setFlash(true);
 
     setTimeout(() => {
 
-      setIndex((prev) => prev + 1);
+      setIndex((i) => i + 1);
 
-    }, 180);
+    }, 170);
 
     setTimeout(() => {
 
       setFlash(false);
 
-    }, 360);
+    }, 320);
 
   }
 
-  useEffect(() => {
+   return (
 
-    if (!showEnding) {
+     <div
+       className="
+         relative
+         min-h-screen
+         overflow-hidden
 
-      resetTimer();
+         flex
+         items-center
+         justify-center
 
-    }
+         px-4
+         py-8
 
-    return () => {
+         bg-gradient-to-br
+         from-rose-100
+         via-pink-50
+         to-purple-100
+       "
+     >
 
-      if (timerRef.current) {
+       {/* Background */}
 
-        clearTimeout(timerRef.current);
+       <motion.img
 
-      }
+         key={photos[index]}
 
-    };
+         src={photos[index]}
 
-  }, [index, showEnding]);
+         alt=""
 
-  useEffect(() => {
+         initial={{ opacity: 0 }}
 
-    if (!flash && !showEnding) {
+         animate={{ opacity: .18 }}
 
-      resetTimer();
+         transition={{ duration: .45 }}
 
-    }
+         className="
+           absolute
+           inset-0
 
-  }, [flash]);
+           w-full
+           h-full
 
-  return (
+           object-cover
 
-    <div
+           blur-[45px]
 
-      className="
-        relative
-        min-h-screen
-        overflow-hidden
+           scale-110
+         "
 
-        flex
-        items-center
-        justify-center
+       />
 
-        px-4
-        py-8
+       <div
 
-        bg-gradient-to-br
-        from-rose-100
-        via-pink-50
-        to-purple-100
-      "
+         className="
+           absolute
+           inset-0
 
-    >
+           bg-gradient-to-br
 
-      {/* Animated Blurred Background */}
+           from-rose-100/80
 
-      <AnimatePresence mode="wait">
+           via-pink-50/65
 
-        <motion.div
+           to-purple-100/80
+         "
 
-          key={photos[index]}
+       />
 
-          initial={{ opacity: 0 }}
+       <FloatingParticles />
 
-          animate={{ opacity: 1 }}
+       <CameraFlash show={flash} />
 
-          exit={{ opacity: 0 }}
+       {/* Glass */}
 
-          transition={{ duration: .8 }}
+       <div
 
-          className="absolute inset-0"
+         className="
+           relative
+           z-20
 
-        >
+           glass
 
-          <motion.img
+           rounded-[34px]
 
-            src={photos[index]}
+           bg-white/20
 
-            alt=""
+           border
+           border-white/40
 
-            animate={{
+           backdrop-blur-xl
 
-              scale: [1.1, 1.2, 1.1],
+           shadow-[0_25px_70px_rgba(236,72,153,.15)]
 
-            }}
+           p-5
+         "
 
-            transition={{
+       >
 
-              repeat: Infinity,
+         <div
 
-              duration: 12,
+           onClick={nextPhoto}
 
-              ease: "linear",
+           className="
+             relative
 
-            }}
+             w-[82vw]
 
-            className="
-              absolute
-              inset-0
+             max-w-[340px]
 
-              w-full
-              h-full
+             h-[490px]
 
-              object-cover
+             sm:h-[540px]
 
-              blur-[90px]
+             cursor-pointer
 
-              opacity-30
+             select-none
+           "
 
-              saturate-150
-            "
+         >
 
-          />
+           {/* Third Paper */}
 
-          <div
+           <motion.div
 
-            className="
-              absolute
-              inset-0
+             animate={{
 
-              bg-gradient-to-br
+               rotate:-7,
 
-              from-pink-100/60
+               y:16,
 
-              via-white/30
+               scale:.93,
 
-              to-rose-200/60
-            "
+             }}
 
-          />
+             className="
+               absolute
 
-        </motion.div>
+               inset-0
 
-      </AnimatePresence>
+               rounded-[26px]
 
-      <FloatingParticles />
+               bg-white
 
-      <CameraFlash show={flash} />
+               border
 
-      {/* Glass Container */}
+               border-pink-100
 
-      <div
+               shadow-xl
 
-        className="
-          relative
-          z-20
+               z-10
+             "
 
-          glass
+           />
 
-          rounded-[36px]
+           {/* Second Paper */}
 
-          border
-          border-white/40
+           <motion.div
 
-          bg-white/15
+             animate={{
 
-          backdrop-blur-2xl
+               rotate:5,
 
-          shadow-[0_25px_80px_rgba(236,72,153,.18)]
+               y:8,
 
-          p-5
+               scale:.97,
 
-          sm:p-7
-        "
+             }}
 
-      >
+             className="
+               absolute
 
-        {/* Stack starts here */}
-                <div
-                  onClick={nextPhoto}
-                  className="
-                    relative
-                    w-[84vw]
-                    max-w-[360px]
+               inset-0
 
-                    h-[500px]
-                    sm:h-[560px]
+               rounded-[26px]
 
-                    cursor-pointer
-                    select-none
-                  "
-                >
+               bg-white
 
-                  {/* Third Card */}
+               border
 
-                  {photos[index + 2] && (
+               border-pink-100
 
-                    <motion.div
+               shadow-xl
 
-                      className="absolute inset-0 z-10"
+               z-20
+             "
 
-                      animate={{
+           />
 
-                      scale:.95,
+           {/* Current Photo */}
 
-                      rotate:-6,
+           <AnimatePresence mode="popLayout">
 
-                      y:14,
+             <motion.div
 
-                      opacity:.65,
+               key={index}
 
-                      }}
+               className="absolute inset-0 z-30"
 
-                      transition={{
-                        duration: .45,
-                      }}
+               initial={{
 
-                    >
+                 opacity:0,
 
-                      <PhotoCard
+                 scale:.72,
 
-                        src={photos[index + 2]}
+                 y:180,
 
-                        rotation={-7}
+                 rotate:rotations[index]-8,
 
-                      />
+               }}
 
-                    </motion.div>
+               animate={{
 
-                  )}
+                 opacity:1,
 
-                  {/* Second Card */}
+                 scale:1,
 
-                  {photos[index + 1] && (
+                 y:0,
 
-                    <motion.div
+                 rotate:rotations[index],
 
-                      className="absolute inset-0 z-20"
+               }}
 
-                      animate={{
+               exit={{
 
-                      scale:index===photos.length-1?.96:.98,
+                 opacity:0,
 
-                      rotate:4,
+                 x:320,
 
-                      y:5,
+                 y:-220,
 
-                      opacity:.9,
+                 rotate:rotations[index]+24,
 
-                      }}
+                 scale:.9,
 
-                      transition={{
-                        duration: .45,
-                      }}
+               }}
 
-                    >
+               transition={{
 
-                      <PhotoCard
+                 type:"spring",
 
-                        src={photos[index + 1]}
+                 stiffness:120,
 
-                        rotation={5}
+                 damping:18,
 
-                      />
+               }}
 
-                    </motion.div>
+               whileTap={{
 
-                  )}
+                 scale:.96,
 
-                  {/* Front Card */}
+                 rotate:rotations[index]+3,
 
-                  <AnimatePresence mode="wait">
+               }}
 
-                    <motion.div
+             >
 
-                      key={index}
+               <PhotoCard
 
-                      className="absolute inset-0 z-30"
+                 src={photos[index]}
 
-                      initial={{
+                 caption=""
 
-                        opacity:0,
+                 rotation={rotations[index]}
 
-                        scale:.65,
+               />
 
-                        y:220,
+             </motion.div>
 
-                        rotate:rotations[index]-8,
+           </AnimatePresence>
 
-                      }}
+         </div>        {/* Caption */}
 
-                      animate={{
+                       {!showEnding && (
 
-                        opacity:1,
+                         <div
+                           className="
+                             absolute
 
-                        scale:1,
+                             -bottom-16
 
-                        y:[0,-5,0],
+                             left-0
+                             right-0
 
-                        rotate:rotations[index],
+                             flex
+                             flex-col
+                             items-center
+                           "
+                         >
 
-                      }}
+                           <PhotoCaption
 
-                      exit={{
+                             text={captions[index]}
 
-                      opacity:0,
+                           />
 
-                      scale:.88,
+                           <motion.p
 
-                      rotate:rotations[index]+30,
+                             animate={{
+                               opacity: [0.3, 1, 0.3],
+                             }}
 
-                      x:360,
+                             transition={{
+                               repeat: Infinity,
+                               duration: 2,
+                             }}
 
-                      y:-300,
+                             className="
+                               mt-3
 
-                      transition:{
+                               text-xs
 
-                      duration:.55,
+                               tracking-[0.25em]
 
-                      ease:"easeInOut",
+                               text-pink-600
 
-                      }
+                               font-semibold
+                             "
 
-                      }}
+                           >
 
-                      transition={{
+                             👆 Tap photo or wait...
 
-                        y:{
+                           </motion.p>
 
-                          duration:3,
+                         </div>
 
-                          repeat:Infinity,
+                       )}
 
-                          ease:"easeInOut",
+                     </div>
 
-                        },
+                     {/* Ending */}
 
-                        default:{
+                     <AnimatePresence>
 
-                          type:"spring",
+                       {showEnding && (
 
-                          stiffness:110,
+                         <motion.div
 
-                          damping:15,
+                           initial={{
+                             opacity: 0,
+                           }}
 
-                        }
+                           animate={{
+                             opacity: 1,
+                           }}
 
-                      }}
+                           exit={{
+                             opacity: 0,
+                           }}
 
-                      whileTap={{
+                           className="
+                             absolute
+                             inset-0
+                             z-50
 
-                        scale:.96,
+                             flex
+                             flex-col
 
-                        rotate:rotations[index]+4,
+                             items-center
+                             justify-center
 
-                        y:-12,
+                             bg-white/20
 
-                      }}
+                             backdrop-blur-2xl
 
-                    >
+                             px-6
+                           "
 
-                      <motion.div
-                        whileHover={{
-                          rotate: rotations[index] + 2,
-                          y: -6,
-                          scale: 1.02,
-                        }}
-                        transition={{
-                          duration: 0.25,
-                        }}
-                      >
-                        <PhotoCard
-                          src={photos[index]}
-                          caption=""
-                          rotation={rotations[index]}
-                        />
-                      </motion.div>
+                         >
 
-                    </motion.div>
+                           <motion.div
 
-                  </AnimatePresence>
+                             initial={{
+                               scale: .5,
+                               opacity: 0,
+                             }}
 
-                </div>
+                             animate={{
+                               scale: 1,
+                               opacity: 1,
+                             }}
 
-                {/* Caption */}
+                             transition={{
+                               type: "spring",
+                               stiffness: 120,
+                               damping: 12,
+                             }}
 
-               {/* Caption */}
+                             className="text-8xl"
 
-               {!showEnding && (
+                           >
 
-                 <div
-                   className="
-                     absolute
+                             ❤️
 
-                     -bottom-16
+                           </motion.div>
 
-                     left-0
-                     right-0
+                           <motion.h2
 
-                     flex
-                     flex-col
-                     items-center
-                   "
-                 >
+                             initial={{
+                               opacity: 0,
+                               y: 20,
+                             }}
 
-                   <PhotoCaption text={captions[index]} />
+                             animate={{
+                               opacity: 1,
+                               y: 0,
+                             }}
 
-                   <motion.p
+                             transition={{
+                               delay: .3,
+                             }}
 
-                     animate={{
-                       opacity: [0.3, 0.9, 0.3],
-                     }}
+                             className="
+                               mt-8
 
-                     transition={{
-                       repeat: Infinity,
-                       duration: 2,
-                     }}
+                               text-4xl
+                               sm:text-5xl
 
-                     className="
-                       mt-3
+                               font-bold
 
-                       text-xs
-                       sm:text-sm
+                               text-pink-600
+                             "
 
-                       tracking-widest
+                           >
 
-                       text-pink-600
+                             Beautiful ❤️
 
-                       font-medium
-                     "
+                           </motion.h2>
 
-                   >
+                           <motion.p
 
-                     👆 Tap photo or wait...
+                             initial={{
+                               opacity: 0,
+                             }}
 
-                   </motion.p>
+                             animate={{
+                               opacity: 1,
+                             }}
 
-                 </div>
+                             transition={{
+                               delay: .6,
+                             }}
 
-               )}
-              </div>
-                    {/* Ending Screen */}
+                             className="
+                               mt-5
 
-                    <AnimatePresence>
+                               max-w-sm
 
-                      {showEnding && (
+                               text-center
 
-                        <motion.div
+                               leading-8
 
-                          initial={{
-                            opacity: 0,
-                          }}
+                               text-gray-700
+                             "
 
-                          animate={{
-                            opacity: 1,
-                          }}
+                           >
 
-                          exit={{
-                            opacity: 0,
-                          }}
+                             Hope these little memories
+                             made you smile. 🌸
 
-                          className="
-                            absolute
-                            inset-0
-                            z-50
+                           </motion.p>
 
-                            flex
-                            flex-col
+                           {onComplete && (
 
-                            items-center
-                            justify-center
+                             <motion.button
 
-                            bg-gradient-to-br
-                            from-pink-500/35
-                            via-rose-500/30
-                            to-purple-500/35
+                               initial={{
+                                 opacity: 0,
+                                 y: 25,
+                               }}
 
-                            backdrop-blur-2xl
+                               animate={{
+                                 opacity: 1,
+                                 y: 0,
+                               }}
 
-                            px-6
-                          "
+                               transition={{
+                                 delay: 1,
+                               }}
 
-                        >
+                               whileHover={{
+                                 scale: 1.04,
+                               }}
 
-                          <motion.div
+                               whileTap={{
+                                 scale: .96,
+                               }}
 
-                            initial={{
-                              scale: .4,
-                              opacity: 0,
-                            }}
+                               onClick={onComplete}
 
-                            animate={{
-                              scale: 1,
-                              opacity: 1,
-                            }}
+                               className="
+                                 mt-12
 
-                            transition={{
-                              type: "spring",
-                              stiffness: 120,
-                              damping: 12,
-                            }}
+                                 rounded-full
 
-                            className="text-8xl"
+                                 px-12
+                                 py-4
 
-                          >
+                                 text-lg
+                                 font-bold
 
-                            ❤️
+                                 text-white
 
-                          </motion.div>
+                                 bg-gradient-to-r
+                                 from-pink-500
+                                 via-rose-500
+                                 to-purple-500
 
-                          <motion.h2
+                                 shadow-[0_15px_50px_rgba(236,72,153,.35)]
+                               "
 
-                            initial={{
-                              opacity: 0,
-                              y: 20,
-                            }}
+                             >
 
-                            animate={{
-                              opacity: 1,
-                              y: 0,
-                            }}
+                               Continue ❤️
 
-                            transition={{
-                              delay: .3,
-                            }}
+                             </motion.button>
 
-                            className="
-                              mt-8
+                           )}
 
-                              text-4xl
-                              sm:text-5xl
+                         </motion.div>
 
-                              font-bold
+                       )}
 
-                              text-white
+                     </AnimatePresence>
 
-                              drop-shadow-lg
-                            "
+                   </div>
 
-                          >
+                 );
 
-                            Beautiful ❤️
-
-                          </motion.h2>
-
-                          <motion.p
-
-                            initial={{
-                              opacity: 0,
-                            }}
-
-                            animate={{
-                              opacity: 1,
-                            }}
-
-                            transition={{
-                              delay: .6,
-                            }}
-
-                            className="
-                              mt-5
-
-                              max-w-sm
-
-                              text-center
-
-                              leading-8
-
-                              text-white/90
-
-                              text-lg
-                            "
-
-                          >
-
-                            Hope these little memories
-                            made you smile. 🌸
-
-                          </motion.p>
-
-                          {onComplete && (
-
-                            <motion.button
-
-                              initial={{
-                                opacity: 0,
-                                y: 30,
-                              }}
-
-                              animate={{
-                                opacity: 1,
-                                y: 0,
-                              }}
-
-                              transition={{
-                                delay: 1,
-                              }}
-
-                              whileHover={{
-                                scale: 1.05,
-                              }}
-
-                              whileTap={{
-                                scale: .95,
-                              }}
-
-                              onClick={onComplete}
-
-                              className="
-                                mt-12
-
-                                rounded-full
-
-                                px-12
-                                py-4
-
-                                text-lg
-                                font-bold
-
-                                text-white
-
-                                bg-gradient-to-r
-                                from-pink-500
-                                via-rose-500
-                                to-purple-500
-
-                                shadow-[0_20px_60px_rgba(236,72,153,.45)]
-                              "
-
-                            >
-
-                              Continue ❤️
-
-                            </motion.button>
-
-                          )}
-
-                        </motion.div>
-
-                      )}
-
-                    </AnimatePresence>
-
-                  </div>
-
-                );
-
-              }
+               }
