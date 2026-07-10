@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import PhotoCard from "./PhotoCard";
 import CameraFlash from "./CameraFlash";
 import FloatingParticles from "./FloatingParticles";
-import PhotoCaption from "./PhotoCaption";
 
 type Props = {
   onComplete?: () => void;
@@ -391,7 +390,7 @@ export default function PhotoPopSurprise({
 
                  src={photos[index]}
 
-                 caption=""
+                 caption={captions[index]}
 
                  rotation={rotations[index]}
 
@@ -419,12 +418,6 @@ export default function PhotoPopSurprise({
                              items-center
                            "
                          >
-
-                           <PhotoCaption
-
-                             text={captions[index]}
-
-                           />
 
                            <motion.p
 
