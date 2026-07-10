@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { TypeAnimation } from "react-type-animation";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { TypeAnimation } from "react-type-animation";
 
 type Props = {
   onContinue: () => void;
@@ -11,144 +11,387 @@ type Props = {
 export default function Letter({ onContinue }: Props) {
 
   const [opened, setOpened] = useState(false);
-  const [showText, setShowText] = useState(false);
+  const [showPaper, setShowPaper] = useState(false);
+  const [showLetter, setShowLetter] = useState(false);
 
   function openEnvelope() {
+
+    if (opened) return;
 
     setOpened(true);
 
     setTimeout(() => {
+      setShowPaper(true);
+    }, 700);
 
-      setShowText(true);
-
-    }, 1200);
+    setTimeout(() => {
+      setShowLetter(true);
+    }, 1400);
 
   }
 
   return (
 
-<div className="w-[650px] text-center">
+    <div className="w-full max-w-md sm:max-w-2xl mx-auto text-center">
 
-{!opened && (
+      <AnimatePresence>
 
-<motion.div
+        {!opened && (
 
-whileHover={{
-scale:1.05
-}}
+          <motion.div
 
-onClick={openEnvelope}
+            initial={{
+              opacity:0,
+              y:40,
+            }}
 
-className="cursor-pointer"
+            animate={{
+              opacity:1,
+              y:0,
+            }}
 
->
+            exit={{
+              opacity:0,
+            }}
 
-<div className="text-[150px]">
+            className="flex flex-col items-center"
 
-💌
+          >
 
-</div>
+            <motion.h2
 
-<h2 className="text-3xl font-bold text-pink-600">
+              initial={{
+                scale:.8,
+              }}
 
-Click to Open
+              animate={{
+                scale:1,
+              }}
 
-</h2>
+              className="
+              text-3xl
+              sm:text-5xl
+              font-bold
+              text-pink-600
+              "
 
-</motion.div>
+            >
 
-)}
+              💌 A Letter For You
 
-{opened && (
+            </motion.h2>
 
-<motion.div
+            <p className="mt-4 text-gray-600">
 
-initial={{
-y:200,
-opacity:0
-}}
+              Tap the envelope ❤️
 
-animate={{
-y:0,
-opacity:1
-}}
+            </p>
 
-transition={{
-duration:1
-}}
+            <motion.div
 
->
+              whileHover={{
+                scale:1.05,
+              }}
 
-<div className="text-[100px]">
+              whileTap={{
+                scale:.95,
+              }}
 
-📜
+              onClick={openEnvelope}
 
-</div>
+              className="
+              relative
+              mt-10
+              w-72
+              h-48
+              cursor-pointer
+              "
 
-{showText && (
+            >
 
-<div className="mt-8 bg-white rounded-3xl p-8 shadow-xl">
+              {/* Body */}
 
-<TypeAnimation
+              <div
 
-sequence={[
+                className="
+                absolute
+                inset-0
+                rounded-2xl
+                bg-gradient-to-br
+                from-pink-300
+                to-pink-400
+                shadow-2xl
+                "
 
-`Dear Cutie ❤️
+              />
 
-Happy Birthday!!
+              {/* Flap */}
 
-Today isn't just another day...
+              <motion.div
 
-It's the day someone extremely special came into this world.
+                animate={{
+                  rotateX:opened?180:0,
+                }}
 
-I honestly don't know how to explain how much I appreciate our friendship.
+                transition={{
+                  duration:.8,
+                }}
 
-Thank you for making me laugh.
+                style={{
+                  transformOrigin:"top",
+                }}
 
-Thank you for listening to me.
+                className="
+                absolute
+                top-0
+                left-0
+                w-full
+                h-24
+                rounded-t-2xl
+                bg-pink-500
+                "
 
-Thank you for existing.
+              />
 
-May this year bring you happiness, success, peace and endless smiles.
+              {/* Heart */}
 
-Never stop being the amazing person you are.
+              <motion.div
 
-Happy Birthday once again ❤️🎂
+                animate={{
+                  scale:[1,1.15,1],
+                }}
 
-- Tanay`
+                transition={{
+                  repeat:Infinity,
+                  duration:1.5,
+                }}
 
-]}
+                className="
+                absolute
+                inset-0
+                flex
+                items-center
+                justify-center
+                text-5xl
+                "
 
-speed={75}
+              >
 
-wrapper="p"
+                ❤️
 
-className="whitespace-pre-line text-left text-gray-700 text-lg leading-9"
+              </motion.div>
 
-/>
+            </motion.div>
 
-<button
+          </motion.div>
 
-onClick={onContinue}
+        )}
 
-className="mt-10 bg-pink-500 text-white px-10 py-4 rounded-full text-xl"
+      </AnimatePresence>
 
->
+      {showPaper && (
 
-Continue →
+        <motion.div
 
-</button>
+          initial={{
+            opacity:0,
+            y:200,
+          }}
 
-</div>
+          animate={{
+            opacity:1,
+            y:0,
+          }}
 
-)}
+          transition={{
+            duration:1,
+          }}
 
-</motion.div>
+          className="
+          mt-8
+          h-[70vh]
+          w-full
+          bg-[#fffdf8]
+          rounded-3xl
+          shadow-2xl
+          border-2
+          border-pink-200
+          overflow-hidden
+          flex
+          flex-col
+          "
 
-)}
+        >
 
-</div>
+          {/* Header */}
 
-  );
+          <div className="border-b border-pink-200 p-5">
 
-}
+            <h2
+
+              className="
+              text-4xl
+              text-pink-600
+              "
+
+              style={{
+                fontFamily:"Caveat,cursive"
+              }}
+
+            >
+
+              Dear Cutie ❤️
+
+            </h2>
+
+          </div>
+
+          {/* Scroll Area */}
+
+          <div
+
+            className="
+            flex-1
+            overflow-y-auto
+            px-6
+            py-5
+            text-left
+            "
+
+          >
+                      {showLetter && (
+
+                        <TypeAnimation
+
+                          sequence={[
+
+          `Happy Birthday Princess!! 🎂❤️
+
+          I don't know if this little website can express everything I want to say,
+          but I still wanted to try.
+
+          Today is your day...
+
+          A day that deserves lots of smiles,
+          lots of happiness,
+          and lots of beautiful memories.
+
+          Thank you for being such a wonderful friend.
+
+          Every conversation,
+          every laugh,
+          every silly moment,
+          every memory...
+
+          means more than you probably know.
+
+          I genuinely wish that this year brings you
+          everything you've been hoping for.
+
+          May all your dreams come true.
+
+          May you always stay happy.
+
+          May you always keep smiling.
+
+          And whenever life gets difficult,
+          always remember that you are much stronger than you think.
+
+          Never change the beautiful person you are.
+
+          Keep shining.
+          Keep smiling.
+          Keep being yourself.
+
+          Because that's exactly what makes you special. ❤️
+
+          Now...
+          Before you continue...
+
+          I have one more thing to tell you...
+
+          👇 Keep scrolling 😄`
+
+                          ]}
+
+                          wrapper="div"
+
+                          cursor={true}
+
+                          speed={55}
+
+                          className="
+                          whitespace-pre-line
+                          text-gray-700
+                          leading-9
+                          text-lg
+                          "
+
+                        />
+
+                        )}
+
+                        {/* Extra Space */}
+
+                        <div className="h-24"></div>
+
+                    </div>
+
+                    {/* Bottom Button */}
+                              <div
+                                className="
+                                  border-t
+                                  border-pink-200
+                                  bg-white/90
+                                  backdrop-blur-md
+                                  p-5
+                                  shrink-0
+                                "
+                              >
+
+                                <motion.button
+
+                                  whileHover={{
+                                    scale: 1.03,
+                                  }}
+
+                                  whileTap={{
+                                    scale: 0.96,
+                                  }}
+
+                                  onClick={onContinue}
+
+                                  className="
+                                    w-full
+                                    rounded-full
+                                    bg-gradient-to-r
+                                    from-pink-500
+                                    to-rose-500
+                                    text-white
+                                    py-4
+                                    text-lg
+                                    sm:text-xl
+                                    font-bold
+                                    shadow-xl
+                                    hover:shadow-2xl
+                                    transition-all
+                                    duration-300
+                                  "
+
+                                >
+
+                                  🎁 Continue To Gift
+
+                                </motion.button>
+
+                              </div>
+
+                            </motion.div>
+
+                          )}
+
+                        </div>
+
+                      );
+
+                    }

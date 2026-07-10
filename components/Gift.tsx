@@ -60,7 +60,7 @@ export default function Gift({ onReveal }: GiftProps) {
       <motion.h1
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="text-6xl font-bold text-pink-600"
+        className="text-4xl sm:text-5xl md:text-6xl font-bold text-pink-600"
       >
         🎁 Gift Time
       </motion.h1>
@@ -116,7 +116,7 @@ export default function Gift({ onReveal }: GiftProps) {
             ⏳
           </motion.p>
 
-          <p className="text-6xl font-bold mt-3">
+          <p className="text-4xl sm:text-5xl md:text-6xl font-bold mt-3">
             {seconds}
           </p>
 
