@@ -1,30 +1,54 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+type Heart = {
+  left: number;
+  duration: number;
+  delay: number;
+  size: number;
+};
+
 export default function FloatingHearts() {
+  const [hearts, setHearts] = useState<Heart[]>([]);
+
+  useEffect(() => {
+    const items = Array.from({ length: 18 }).map(() => ({
+      left: Math.random() * 100,
+      duration: 8 + Math.random() * 6,
+      delay: Math.random() * 5,
+      size: 20 + Math.random() * 18,
+    }));
+
+    setHearts(items);
+  }, []);
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: 18 }).map((_, i) => (
+      {hearts.map((heart, i) => (
         <motion.div
           key={i}
-          className="absolute text-2xl"
+          className="absolute"
           initial={{
-            x: `${Math.random() * 100}vw`,
+            x: `${heart.left}vw`,
             y: "110vh",
-            scale: 0.6 + Math.random() * 0.8,
             opacity: 0,
+            scale: 0.7,
           }}
           animate={{
-            y: "-15vh",
+            y: "-10vh",
             opacity: [0, 1, 1, 0],
-            rotate: [-20, 20, -20],
+            rotate: [-15, 15, -15],
           }}
           transition={{
-            duration: 8 + Math.random() * 6,
-            delay: Math.random() * 5,
+            duration: heart.duration,
+            delay: heart.delay,
             repeat: Infinity,
             ease: "linear",
+          }}
+          style={{
+            fontSize: heart.size,
           }}
         >
           💖

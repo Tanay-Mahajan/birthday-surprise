@@ -32,7 +32,12 @@ export default function Letter({ onContinue }: Props) {
 
   return (
 
-    <div className="w-full max-w-sm sm:max-w-xl md:max-w-2xl mx-auto text-center px-2">
+    <div className="w-full
+                        max-w-[95vw]
+                        sm:max-w-2xl
+                        md:max-w-3xl
+                        mx-auto
+                        text-center">
 
       <AnimatePresence>
 
@@ -210,21 +215,35 @@ export default function Letter({ onContinue }: Props) {
             duration:1,
           }}
 
-          className="
-          mt-8
-          h-[60vh]
-          sm:h-[65vh]
-          md:h-[70vh]
-          w-full
-          bg-[#fffdf8]
-          rounded-3xl
-          shadow-2xl
-          border-2
-          border-pink-200
-          overflow-hidden
-          flex
-          flex-col
-          "
+         className="
+         mt-6
+
+         w-[95vw]
+         sm:w-[92vw]
+         md:w-[850px]
+
+         max-w-[850px]
+
+         mx-auto
+
+         h-[75vh]
+
+         bg-[#fffdf8]
+
+         rounded-[28px]
+
+         shadow-2xl
+
+         border-2
+
+         border-pink-200
+
+         overflow-hidden
+
+         flex
+
+         flex-col
+         "
 
         >
 
@@ -260,9 +279,12 @@ export default function Letter({ onContinue }: Props) {
             className="
             flex-1
             overflow-y-auto
-            px-4
-            sm:px-6
-            py-3
+
+            px-6
+            sm:px-8
+
+            py-5
+
             text-left
             "
 
@@ -330,12 +352,12 @@ export default function Letter({ onContinue }: Props) {
 
                           className="
                           whitespace-pre-line
+                          text-left
+                          leading-8
+                          tracking-wide
                           text-gray-700
-                          leading-7
-                          sm:leading-8
-                          text-sm
-                          sm:text-base
-                          md:text-lg
+                          text-[17px]
+                          sm:text-lg
                           "
 
                         />
@@ -374,7 +396,7 @@ export default function Letter({ onContinue }: Props) {
 
                                   className="
                                     w-full
-                                    rounded-full
+                                    rounded-xl
                                     bg-gradient-to-r
                                     from-pink-500
                                     to-rose-500

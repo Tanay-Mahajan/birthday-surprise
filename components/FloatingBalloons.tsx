@@ -1,37 +1,67 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const balloons = ["🎈", "🎈", "🎈", "🎀", "🎉"];
+type Balloon = {
+  left: number;
+  drift: number;
+  duration: number;
+  delay: number;
+  rotate: number;
+  scale: number;
+  emoji: string;
+};
+
+const emojis = ["🎈", "🎈", "🎈", "🎀", "🎉"];
 
 export default function FloatingBalloons() {
+  const [balloons, setBalloons] = useState<Balloon[]>([]);
+
+  useEffect(() => {
+    const items = Array.from({ length: 10 }).map(() => ({
+      left: 10 + Math.random() * 80,
+      drift: Math.random() * 80 - 40,
+      duration: 12 + Math.random() * 8,
+      delay: Math.random() * 5,
+      rotate: -10 + Math.random() * 20,
+      scale: 0.8 + Math.random() * 0.5,
+      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+    }));
+
+    setBalloons(items);
+  }, []);
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: 10 }).map((_, i) => (
+      {balloons.map((balloon, i) => (
         <motion.div
           key={i}
-          className="absolute text-5xl"
+          className="absolute"
           initial={{
-            x: `${10 + Math.random() * 80}vw`,
+            x: `${balloon.left}vw`,
             y: "110vh",
-            rotate: -10 + Math.random() * 20,
-            scale: 0.8 + Math.random() * 0.4,
+            rotate: balloon.rotate,
+            scale: balloon.scale,
+            opacity: 0,
           }}
           animate={{
             y: "-20vh",
-            x: `calc(${10 + Math.random() * 80}vw + ${
-              Math.random() * 80 - 40
-            }px)`,
+            x: `calc(${balloon.left}vw + ${balloon.drift}px)`,
             rotate: [-8, 8, -8],
+            opacity: [0, 1, 1, 0],
           }}
           transition={{
-            duration: 12 + Math.random() * 8,
-            delay: Math.random() * 5,
+            duration: balloon.duration,
+            delay: balloon.delay,
             repeat: Infinity,
             ease: "linear",
           }}
+          style={{
+            fontSize: "3rem",
+          }}
         >
-          {balloons[Math.floor(Math.random() * balloons.length)]}
+          {balloon.emoji}
         </motion.div>
       ))}
     </div>

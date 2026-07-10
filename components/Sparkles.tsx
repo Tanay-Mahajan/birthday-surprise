@@ -1,30 +1,56 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+type Sparkle = {
+  left: number;
+  top: number;
+  duration: number;
+  delay: number;
+  size: number;
+};
+
 export default function Sparkles() {
+  const [sparkles, setSparkles] = useState<Sparkle[]>([]);
+
+  useEffect(() => {
+    const items = Array.from({ length: 35 }).map(() => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 2 + Math.random() * 2,
+      delay: Math.random() * 4,
+      size: 12 + Math.random() * 10,
+    }));
+
+    setSparkles(items);
+  }, []);
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {Array.from({ length: 35 }).map((_, i) => (
+      {sparkles.map((sparkle, i) => (
         <motion.div
           key={i}
-          className="absolute text-lg"
+          className="absolute"
           initial={{
-            x: `${Math.random() * 100}vw`,
-            y: `${Math.random() * 100}vh`,
+            x: `${sparkle.left}vw`,
+            y: `${sparkle.top}vh`,
             opacity: 0,
             scale: 0.5,
           }}
           animate={{
             opacity: [0, 1, 0],
-            scale: [0.5, 1.3, 0.5],
+            scale: [0.5, 1.4, 0.5],
             rotate: [0, 180, 360],
           }}
           transition={{
-            duration: 2 + Math.random() * 2,
-            delay: Math.random() * 4,
+            duration: sparkle.duration,
+            delay: sparkle.delay,
             repeat: Infinity,
             ease: "easeInOut",
+          }}
+          style={{
+            fontSize: sparkle.size,
           }}
         >
           ✨
