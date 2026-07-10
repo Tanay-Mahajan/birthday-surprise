@@ -16,6 +16,7 @@ import GiftBlocked from "./GiftBlocked";
 import Letter from "./Letter";
 import Gift from "./Gift";
 import PhotoPopSurprise from "./PhotoPopSurprise"; // Integrated your photo component here
+import FinalThankYou from "./FinalThankYou";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -46,16 +47,20 @@ export default function Hero() {
       </div>
 
       {/* Conditionally bypass GlassCard styling for the full-screen interactive photo pop-up experience */}
-      {page === 1 ? (
+      {page === 1 || page === 7 ? (
         <AnimatePresence mode="wait">
           <motion.div
-            key="photo-pop"
+            key={page === 1 ? "photo-pop" : "final-thank-you"}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="w-full h-full"
           >
-            <PhotoPopSurprise onComplete={() => setPage(2)} />
+            {page === 1 ? (
+              <PhotoPopSurprise onComplete={() => setPage(2)} />
+            ) : (
+              <FinalThankYou />
+            )}
           </motion.div>
         </AnimatePresence>
       ) : (
@@ -176,6 +181,7 @@ export default function Hero() {
                       controls
                       autoPlay
                       playsInline
+                      onEnded={() => setPage(7)}
                       className="w-full rounded-3xl shadow-2xl"
                     >
                       <source src="/reel.mp4" />
