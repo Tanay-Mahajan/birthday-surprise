@@ -360,6 +360,8 @@ export default function Letter({ onContinue }: Props) {
                           sm:text-lg
                           "
 
+                          style={{ color: "#3f2a45" }}
+
                         />
 
                         )}
@@ -374,8 +376,8 @@ export default function Letter({ onContinue }: Props) {
                               <div
                                 className="
                                   border-t
-                                  border-pink-200
-                                  bg-white/90
+                                  border-pink-200/30
+                                  bg-slate-950/75
                                   backdrop-blur-md
                                   p-3 sm:p-5
                                   shrink-0

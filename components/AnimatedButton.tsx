@@ -24,11 +24,16 @@ export default function AnimatedButton({
       px-10
       py-4
       rounded-full
-      bg-pink-500
+      bg-gradient-to-r
+      from-pink-500
+      via-rose-500
+      to-violet-500
       text-white
       text-xl
       font-semibold
-      shadow-xl
+      shadow-[0_14px_34px_rgba(219,39,119,.35)]
+      ring-1
+      ring-white/60
       "
     >
       {children}

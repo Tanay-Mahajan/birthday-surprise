@@ -86,7 +86,7 @@ export default function BackgroundMusic() {
 
       <button
         onClick={toggle}
-        className="fixed top-5 right-5 z-50 bg-white hover:scale-110 active:scale-95 transition-transform rounded-full p-4 shadow-xl border border-pink-100 flex items-center justify-center text-xl select-none"
+        className="fixed top-5 right-5 z-50 rounded-full border border-pink-200/30 bg-slate-950/65 p-4 text-xl text-white shadow-xl backdrop-blur-md transition-transform hover:scale-110 active:scale-95 select-none"
         aria-label={playing ? "Mute Music" : "Unmute Music"}
       >
         {playing ? "🔊" : "🔈"}

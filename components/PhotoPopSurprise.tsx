@@ -81,7 +81,7 @@ export default function PhotoPopSurprise({
 
       nextPhoto();
 
-    }, 3200);
+    }, 2000);
 
     return () => {
 
@@ -143,9 +143,9 @@ export default function PhotoPopSurprise({
          py-8
 
          bg-gradient-to-br
-         from-rose-100
-         via-pink-50
-         to-purple-100
+         from-slate-950
+         via-fuchsia-950
+         to-violet-950
        "
      >
 
@@ -189,11 +189,11 @@ export default function PhotoPopSurprise({
 
            bg-gradient-to-br
 
-           from-rose-100/80
+           from-slate-950/80
 
-           via-pink-50/65
+           via-fuchsia-950/65
 
-           to-purple-100/80
+           to-violet-950/80
          "
 
        />

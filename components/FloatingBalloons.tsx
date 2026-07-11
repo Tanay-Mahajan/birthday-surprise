@@ -58,7 +58,7 @@ export default function FloatingBalloons() {
             ease: "linear",
           }}
           style={{
-            fontSize: "3rem",
+            fontSize: "clamp(1.5rem, 4vw, 3rem)",
           }}
         >
           {balloon.emoji}

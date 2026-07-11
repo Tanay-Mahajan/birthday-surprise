@@ -105,7 +105,10 @@ export default function PhotoCard({
             transition={{ delay: shouldReduceMotion ? 0 : 0.3 }}
             className="mt-3"
           >
-            <p className="text-center text-lg font-semibold tracking-wide text-gray-700 [font-family:Caveat,cursive]">
+            <p
+              className="text-center text-lg font-semibold tracking-wide text-gray-700 [font-family:Caveat,cursive]"
+              style={{ color: "#374151" }}
+            >
               {caption}
             </p>
           </motion.div>

@@ -44,13 +44,14 @@ export default function Choice({ onLetter, onGift }: Props) {
           className="
             cursor-pointer
             rounded-3xl
-            bg-white/60
+            bg-white/10
             backdrop-blur-xl
             border
-            border-pink-200
+            border-pink-200/30
             shadow-xl
             p-6
             transition-all
+            order-2
           "
         >
 
@@ -106,13 +107,14 @@ export default function Choice({ onLetter, onGift }: Props) {
           className="
             cursor-pointer
             rounded-3xl
-            bg-white/60
+            bg-white/10
             backdrop-blur-xl
             border
-            border-pink-200
+            border-pink-200/30
             shadow-xl
             p-6
             transition-all
+            order-1
           "
         >
 
