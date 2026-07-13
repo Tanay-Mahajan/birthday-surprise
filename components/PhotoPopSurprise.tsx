@@ -11,7 +11,12 @@ type Props = {
   onComplete?: () => void;
 };
 
-const memories = [
+type Memory  = {
+  type: "photo" | "video";
+  src: string;
+  caption: string;
+};
+const memories: Memory[] = [
   {
     type: "photo",
     src: "/image2.jpg",
