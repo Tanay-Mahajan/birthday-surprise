@@ -11,31 +11,34 @@ type Props = {
   onComplete?: () => void;
 };
 
-const photos = [
-  "/image1.jpg",
-  "/image2.jpg",
-  "/image3.jpg",
-  "/image4.jpg",
-  "/image5.jpg",
-  "/image6.jpg",
-  "/image7.jpg",
-  "/image8.jpg",
-  "/image9.jpg",
-  "/image10.jpg",
+const memories = [
+  {
+    type: "photo",
+    src: "/image2.jpg",
+    caption: "❤️ Beautiful",
+  },
+  {
+    type: "photo",
+    src: "/image6.jpg",
+    caption: "🥰 Gorgeous",
+  },
+   {
+      type: "video",
+      src: "/carDriving.mp4",
+      caption: "🎥 A Special Memory",
+    },
+  {
+    type: "photo",
+    src: "/image7.jpg",
+    caption: "✨ Stunning",
+  },
+
+  // VIDEO HERE
+
+
+
 ];
 
-const captions = [
-  "❤️ Beautiful",
-  "🥰 Gorgeous",
-  "✨ Stunning",
-  "🌸 Pretty",
-  "💖 Adorable",
-  "😍 Lovely",
-  "💕 Amazing",
-  "🌷 Elegant",
-  "😊 Precious",
-  "❤️ Perfect",
-];
 
 const rotations = [-5, 4, -3, 5, -4, 3, -6, 4, -2, 5];
 
@@ -55,11 +58,20 @@ export default function PhotoPopSurprise({
 
   useEffect(() => {
 
-    photos.forEach((src) => {
+    memories.forEach((item) => {
 
-      const img = new Image();
+      if (item.type === "photo") {
 
-      img.src = src;
+        const img = new Image();
+        img.src = item.src;
+
+      } else {
+
+        const video = document.createElement("video");
+        video.preload = "auto";
+        video.src = item.src;
+
+      }
 
     });
 
@@ -67,41 +79,49 @@ export default function PhotoPopSurprise({
 
   /* ---------- auto timer ---------- */
 
-  useEffect(() => {
+ useEffect(() => {
 
-    if (showEnding) return;
+   if (showEnding) return;
 
-    if (timer.current) {
+   if (memories[index].type === "video") return;
 
-      clearTimeout(timer.current);
+   if (timer.current) {
+     clearTimeout(timer.current);
+   }
 
-    }
+   timer.current = setTimeout(() => {
+     nextPhoto();
+   }, 2000);
 
-    timer.current = setTimeout(() => {
+   return () => {
+     if (timer.current) {
+       clearTimeout(timer.current);
+     }
+   };
 
-      nextPhoto();
+ }, [index, showEnding]);
+function nextFromVideo() {
 
-    }, 2000);
+  if (index >= memories.length - 1) {
 
-    return () => {
+    setShowEnding(true);
 
-      if (timer.current) {
+    return;
 
-        clearTimeout(timer.current);
+  }
 
-      }
+  setIndex((prev) => prev + 1);
 
-    };
-
-  }, [index, showEnding]);
-
+}
   function nextPhoto() {
 
     if (flash) return;
 
-    if (showEnding) return;
+   if (showEnding) return;
 
-    if (index >= photos.length - 1) {
+   if (memories[index].type === "video") return;
+
+    if (index >= memories.length - 1) {
 
       setShowEnding(true);
 
@@ -153,9 +173,9 @@ export default function PhotoPopSurprise({
 
        <motion.img
 
-         key={photos[index]}
+         key={memories[index].src}
 
-         src={photos[index]}
+         src={memories[index].src}
 
          alt=""
 
@@ -387,13 +407,11 @@ export default function PhotoPopSurprise({
              >
 
                <PhotoCard
-
-                 src={photos[index]}
-
-                 caption={captions[index]}
-
+                 type={memories[index].type}
+                 src={memories[index].src}
+                 caption={memories[index].caption}
                  rotation={rotations[index]}
-
+                 onVideoEnd={nextFromVideo}
                />
 
              </motion.div>

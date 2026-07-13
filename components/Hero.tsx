@@ -15,7 +15,7 @@ import Choice from "./Choice";
 import GiftBlocked from "./GiftBlocked";
 import Letter from "./Letter";
 import Gift from "./Gift";
-import PhotoPopSurprise from "./PhotoPopSurprise"; // Integrated your photo component here
+import PhotoPopSurprise from "./PhotoPopSurprise";
 import FinalThankYou from "./FinalThankYou";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -91,10 +91,10 @@ export default function Hero() {
                     Hey Cutie ❤️
                   </h1>
                   <p className="mt-6 text-lg sm:text-xl text-gray-700">
-                    Today is your Birthday 🎉
+                    Today is our Birthday 🎉
                   </p>
                   <p className="mt-3 text-gray-500 text-sm sm:text-base">
-                    Someone spent a lot of time making this just to make you smile ✨
+                    Create a small website, just to make you smile ✨
                   </p>
                   <div className="mt-10 flex justify-center">
                     <AnimatedButton onClick={() => setPage(1)}>
