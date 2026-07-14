@@ -58,6 +58,13 @@ export default function PhotoPopSurprise({
   const [showEnding, setShowEnding] = useState(false);
 
   const timer = useRef<NodeJS.Timeout | null>(null);
+  const isAdvancing = useRef(false);
+  const currentMemory = memories[index];
+  const backgroundImage =
+    memories
+      .slice(0, index + 1)
+      .reverse()
+      .find((memory) => memory.type === "photo")?.src ?? memories[0].src;
 
   /* ---------- preload images ---------- */
 
@@ -88,7 +95,7 @@ export default function PhotoPopSurprise({
 
    if (showEnding) return;
 
-   if (memories[index].type === "video") return;
+   if (currentMemory.type === "video") return;
 
    if (timer.current) {
      clearTimeout(timer.current);
@@ -96,7 +103,7 @@ export default function PhotoPopSurprise({
 
    timer.current = setTimeout(() => {
      nextPhoto();
-   }, 2000);
+   }, 4000);
 
    return () => {
      if (timer.current) {
@@ -104,35 +111,47 @@ export default function PhotoPopSurprise({
      }
    };
 
- }, [index, showEnding]);
-function nextFromVideo() {
+ }, [index, showEnding, currentMemory.type]);
 
-  if (index >= memories.length - 1) {
-
-    setShowEnding(true);
-
-    return;
-
+  function nextFromVideo() {
+    advanceToNext();
   }
 
-  setIndex((prev) => prev + 1);
+  function advanceToNext() {
+    if (isAdvancing.current || showEnding) return;
 
-}
-  function nextPhoto() {
-
-    if (flash) return;
-
-   if (showEnding) return;
-
-   if (memories[index].type === "video") return;
+    isAdvancing.current = true;
 
     if (index >= memories.length - 1) {
-
       setShowEnding(true);
-
       return;
-
     }
+
+    setIndex((previousIndex) => previousIndex + 1);
+
+    // Keep the transition locked while the outgoing card is animating. This
+    // also prevents a trailing video `ended` event from skipping a memory.
+    setTimeout(() => {
+      isAdvancing.current = false;
+    }, 350);
+  }
+
+  function nextPhoto() {
+    if (isAdvancing.current || showEnding) return;
+
+    // Tapping a video should dismiss it just like a photo. Its native end event
+    // uses the same guarded path, so the two cannot advance twice.
+    if (currentMemory.type === "video") {
+      advanceToNext();
+      return;
+    }
+
+    if (index >= memories.length - 1) {
+      advanceToNext();
+      return;
+    }
+
+    isAdvancing.current = true;
 
     navigator.vibrate?.(35);
 
@@ -147,6 +166,7 @@ function nextFromVideo() {
     setTimeout(() => {
 
       setFlash(false);
+      isAdvancing.current = false;
 
     }, 320);
 
@@ -178,9 +198,9 @@ function nextFromVideo() {
 
        <motion.img
 
-         key={memories[index].src}
+         key={backgroundImage}
 
-         src={memories[index].src}
+         src={backgroundImage}
 
          alt=""
 
