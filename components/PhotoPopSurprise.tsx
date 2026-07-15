@@ -41,14 +41,14 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
   const isAdvancing = useRef(false);
   const currentMemory = memories[index];
 
-  // Pick the background image safely
+  // Safely grab the closest photo backwards to act as the blurred backdrop
   const backgroundImage =
     memories
       .slice(0, index + 1)
       .reverse()
       .find((m) => m.type === "photo")?.src ?? memories[0].src;
 
-  /* ---------- Media Preloads ---------- */
+  /* ---------- Media Preloads Pipeline ---------- */
   useEffect(() => {
     memories.forEach((item) => {
       if (item.type === "photo") {
@@ -64,7 +64,7 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
     });
   }, []);
 
-  /* ---------- Autoplay Timer ---------- */
+  /* ---------- Autoplay Timer Loop ---------- */
   useEffect(() => {
     if (showEnding || currentMemory.type === "video") return;
 
@@ -93,7 +93,7 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
       navigator.vibrate?.(35);
       setFlash(true);
 
-      // Index updates right inside the flash peak
+      // Index update drops right in the middle of the flash peak
       setTimeout(() => {
         setIndex((prev) => prev + 1);
       }, 50);
@@ -117,7 +117,7 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
   return (
     <div className="relative min-h-screen overflow-hidden flex items-center justify-center px-4 py-8 bg-slate-950">
 
-      {/* Background Layer with absolute hardware acceleration tweaks */}
+      {/* Background Layer with absolute hardware acceleration optimizations */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
@@ -137,7 +137,7 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
       <FloatingParticles />
       <CameraFlash show={flash} />
 
-      {/* Glass Deck Border Wrapper */}
+      {/* Glass Deck Container Wrapper */}
       <div className="relative z-20 rounded-[34px] bg-white/5 border border-white/10 shadow-[0_25px_70px_rgba(0,0,0,0.4)] p-5">
 
         {/* Click Target Container */}
@@ -145,14 +145,14 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
           onClick={handleManualTap}
           className="relative w-[82vw] max-w-[340px] h-[490px] sm:h-[540px] cursor-pointer select-none"
         >
-          {/* Third Base Deck Paper - Darkened borders to stop blinding white pops */}
+          {/* Third Base Deck Paper - Tinted off-white to eliminate high-contrast white pops */}
           <div className="absolute inset-0 rounded-[26px] bg-[#fffef9] border border-pink-200/40 shadow-md z-10 -rotate-6 translate-y-3 scale-95 opacity-80" />
 
           {/* Second Base Deck Paper */}
           <div className="absolute inset-0 rounded-[26px] bg-[#fffef9] border border-pink-200/40 shadow-lg z-20 rotate-3 translate-y-1.5 scale-98 opacity-90" />
 
           {/* Current Presentation Frame Layer */}
-          <AnimatePresence dynamicVariants={false}>
+          <AnimatePresence>
             <motion.div
               key={index}
               className="absolute inset-0 z-30 w-full h-full"
@@ -171,9 +171,9 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
               exit={{
                 opacity: 0,
                 x: 280,
-                y: -40,
+                y: -45,
                 rotate: rotations[index] + 16,
-                pointerEvents: "none"
+                transition: { duration: 0.35 }
               }}
               transition={{
                 type: "spring",
@@ -192,7 +192,7 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
           </AnimatePresence>
         </div>
 
-        {/* Dynamic Action Instructions */}
+        {/* Dynamic User Instructions */}
         {!showEnding && (
           <div className="absolute -bottom-16 left-0 right-0 flex flex-col items-center pointer-events-none">
             <motion.p
@@ -206,7 +206,7 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
         )}
       </div>
 
-      {/* Modal End Completion Screen */}
+      {/* Final End Screen Splash Overlay */}
       <AnimatePresence>
         {showEnding && (
           <motion.div
