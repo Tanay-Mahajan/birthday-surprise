@@ -41,14 +41,14 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
   const isAdvancing = useRef(false);
   const currentMemory = memories[index];
 
-  // Derive the active background photo safely
+  // Pick the background image safely
   const backgroundImage =
     memories
       .slice(0, index + 1)
       .reverse()
       .find((m) => m.type === "photo")?.src ?? memories[0].src;
 
-  /* ---------- Robust Preloading ---------- */
+  /* ---------- Media Preloads ---------- */
   useEffect(() => {
     memories.forEach((item) => {
       if (item.type === "photo") {
@@ -64,14 +64,14 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
     });
   }, []);
 
-  /* ---------- Auto Timer Loop ---------- */
+  /* ---------- Autoplay Timer ---------- */
   useEffect(() => {
     if (showEnding || currentMemory.type === "video") return;
 
     if (timer.current) clearTimeout(timer.current);
 
     timer.current = setTimeout(() => {
-      advanceToNext(false); // Auto advance doesn't flash
+      advanceToNext(false);
     }, 4000);
 
     return () => {
@@ -79,7 +79,7 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
     };
   }, [index, showEnding, currentMemory.type]);
 
-  /* ---------- Unified Advance Pipeline ---------- */
+  /* ---------- Main Navigation Pipeline ---------- */
   function advanceToNext(triggerFlash = false) {
     if (isAdvancing.current || showEnding) return;
     isAdvancing.current = true;
@@ -93,74 +93,74 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
       navigator.vibrate?.(35);
       setFlash(true);
 
-      // Sync the index change closely with the flash peek to hide structural pop layout shifts
+      // Index updates right inside the flash peak
       setTimeout(() => {
         setIndex((prev) => prev + 1);
-      }, 60);
+      }, 50);
 
       setTimeout(() => {
         setFlash(false);
         isAdvancing.current = false;
-      }, 300);
+      }, 250);
     } else {
-      // Clean skip path for videos or autoplay transitions
       setIndex((prev) => prev + 1);
       setTimeout(() => {
         isAdvancing.current = false;
-      }, 400);
+      }, 350);
     }
   }
 
   function handleManualTap() {
-    // If it's a video, let the user tap to skip right past it cleanly
     advanceToNext(currentMemory.type === "photo");
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden flex items-center justify-center px-4 py-8 bg-gradient-to-br from-slate-950 via-fuchsia-950 to-violet-950">
+    <div className="relative min-h-screen overflow-hidden flex items-center justify-center px-4 py-8 bg-slate-950">
 
-      {/* Background (Lowered blur radius to eliminate painting drops) */}
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={backgroundImage}
-          src={backgroundImage}
-          alt=""
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.15 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="absolute inset-0 w-full h-full object-cover blur-[20px] scale-105 pointer-events-none will-change-[opacity]"
-        />
-      </AnimatePresence>
-
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950/80 via-fuchsia-950/65 to-violet-950/80 pointer-events-none" />
+      {/* Background Layer with absolute hardware acceleration tweaks */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={backgroundImage}
+            src={backgroundImage}
+            alt=""
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.12 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="w-full h-full object-cover blur-[30px] scale-110 will-change-transform"
+          />
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-fuchsia-950/75 to-violet-950/90" />
+      </div>
 
       <FloatingParticles />
       <CameraFlash show={flash} />
 
-      {/* Main Container Wrapper */}
-      <div className="relative z-20 rounded-[34px] bg-white/10 border border-white/20 backdrop-blur-md shadow-[0_25px_70px_rgba(236,72,153,0.1)] p-5">
+      {/* Glass Deck Border Wrapper */}
+      <div className="relative z-20 rounded-[34px] bg-white/5 border border-white/10 shadow-[0_25px_70px_rgba(0,0,0,0.4)] p-5">
 
+        {/* Click Target Container */}
         <div
           onClick={handleManualTap}
           className="relative w-[82vw] max-w-[340px] h-[490px] sm:h-[540px] cursor-pointer select-none"
         >
-          {/* Third Stack Deck Paper */}
-          <div className="absolute inset-0 rounded-[26px] bg-white border border-pink-100 shadow-xl z-10 -rotate-6 translate-y-4 scale-95 opacity-90" />
+          {/* Third Base Deck Paper - Darkened borders to stop blinding white pops */}
+          <div className="absolute inset-0 rounded-[26px] bg-[#fffef9] border border-pink-200/40 shadow-md z-10 -rotate-6 translate-y-3 scale-95 opacity-80" />
 
-          {/* Second Stack Deck Paper */}
-          <div className="absolute inset-0 rounded-[26px] bg-white border border-pink-100 shadow-xl z-20 rotate-3 translate-y-2 scale-98 opacity-95" />
+          {/* Second Base Deck Paper */}
+          <div className="absolute inset-0 rounded-[26px] bg-[#fffef9] border border-pink-200/40 shadow-lg z-20 rotate-3 translate-y-1.5 scale-98 opacity-90" />
 
-          {/* Current Frame Component */}
-          <AnimatePresence mode="popLayout">
+          {/* Current Presentation Frame Layer */}
+          <AnimatePresence dynamicVariants={false}>
             <motion.div
               key={index}
-              className="absolute inset-0 z-30"
+              className="absolute inset-0 z-30 w-full h-full"
               initial={{
                 opacity: 0,
-                scale: 0.8,
-                y: 60,
-                rotate: rotations[index] - 5,
+                scale: 0.85,
+                y: 30,
+                rotate: rotations[index] - 4,
               }}
               animate={{
                 opacity: 1,
@@ -170,17 +170,15 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
               }}
               exit={{
                 opacity: 0,
-                x: 240,
-                y: -60,
-                rotate: rotations[index] + 15,
+                x: 280,
+                y: -40,
+                rotate: rotations[index] + 16,
+                pointerEvents: "none"
               }}
               transition={{
                 type: "spring",
-                stiffness: 140,
-                damping: 20,
-              }}
-              whileTap={{
-                scale: 0.97,
+                stiffness: 150,
+                damping: 22,
               }}
             >
               <PhotoCard
@@ -194,28 +192,28 @@ export default function PhotoPopSurprise({ onComplete }: Props) {
           </AnimatePresence>
         </div>
 
-        {/* Action Prompt */}
+        {/* Dynamic Action Instructions */}
         {!showEnding && (
           <div className="absolute -bottom-16 left-0 right-0 flex flex-col items-center pointer-events-none">
             <motion.p
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="mt-3 text-xs tracking-[0.25em] text-pink-500 font-semibold"
+              className="mt-3 text-xs tracking-[0.25em] text-pink-400 font-semibold"
             >
-              Base tap photo or wait...
+              👆 Tap photo or wait...
             </motion.p>
           </div>
         )}
       </div>
 
-      {/* Final Splash Screen Screen */}
+      {/* Modal End Completion Screen */}
       <AnimatePresence>
         {showEnding && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/90 backdrop-blur-lg px-6"
+            className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-xl px-6"
           >
             <motion.div
               initial={{ scale: 0.5, opacity: 0 }}
