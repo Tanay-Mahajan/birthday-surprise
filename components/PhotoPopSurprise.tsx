@@ -23,6 +23,21 @@ const memories: Memory[] = [
     caption: "❤️ Beautiful",
   },
   {
+      type: "photo",
+      src: "/image3.jpg",
+      caption: "❤️ Beautiful",
+    },
+ {
+      type: "photo",
+      src: "/image4.jpg",
+      caption: "❤️ Beautiful",
+    },
+ {
+      type: "photo",
+      src: "/image5.jpg",
+      caption: "❤️ Beautiful",
+    },
+  {
     type: "photo",
     src: "/image6.jpg",
     caption: "🥰 Gorgeous",
@@ -37,6 +52,11 @@ const memories: Memory[] = [
     src: "/image7.jpg",
     caption: "✨ Stunning",
   },
+  {
+        type: "photo",
+        src: "/image9.jpg",
+        caption: "✨ Stunning",
+      }
 
   // VIDEO HERE
 
@@ -624,8 +644,9 @@ export default function PhotoPopSurprise({
 
                            >
 
-                             Hope these little memories
-                             made you smile. 🌸
+                             For few photos maar khane ke liye ready hu ,
+                             Bus zinda chodd dena 🤗🌸
+
 
                            </motion.p>
 
