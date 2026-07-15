@@ -2,9 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
 import PhotoCard from "./PhotoCard";
-import FloatingParticles from "./FloatingParticles";
 
 type Memory = {
   type: "photo" | "video";
@@ -17,9 +15,11 @@ const memories: Memory[] = [
   { type: "photo", src: "/image3.jpg", caption: "❤️ Beautiful" },
   { type: "photo", src: "/image4.jpg", caption: "❤️ Beautiful" },
   { type: "video", src: "/carDriving.mp4", caption: "🎥 A Special Memory" },
+  { type: "photo", src: "/image5.jpg", caption: "❤️ Beautiful" },
   { type: "photo", src: "/image6.jpg", caption: "❤️ Beautiful" },
   { type: "photo", src: "/image7.jpg", caption: "❤️ Beautiful" },
   { type: "video", src: "/food.mp4", caption: "🎥 A Special Memory" },
+  { type: "photo", src: "/image8.jpg", caption: "❤️ Beautiful" },
   { type: "photo", src: "/image9.jpg", caption: "🥰 Gorgeous" },
   { type: "photo", src: "/image10.jpg", caption: "✨ Stunning" },
   { type: "video", src: "/power.mp4", caption: "🎥 A Special Memory" },
@@ -39,14 +39,7 @@ export default function PhotoPopSurprise({
   const isAdvancing = useRef(false);
   const currentMemory = memories[index];
 
-  // Safely grab the closest photo backwards to act as the blurred backdrop
-  const backgroundImage =
-    memories
-      .slice(0, index + 1)
-      .reverse()
-      .find((m) => m.type === "photo")?.src ?? memories[0].src;
-
-  /* ---------- Media Preloads Pipeline ---------- */
+  /* ---------- High Priority Media Preloads ---------- */
   useEffect(() => {
     memories.forEach((item) => {
       if (item.type === "photo") {
@@ -77,7 +70,7 @@ export default function PhotoPopSurprise({
     };
   }, [index, showEnding, currentMemory.type]);
 
-  /* ---------- Main Navigation Pipeline ---------- */
+  /* ---------- Card Shift Logic ---------- */
   function advanceToNext() {
     if (isAdvancing.current || showEnding) return;
     isAdvancing.current = true;
@@ -87,61 +80,41 @@ export default function PhotoPopSurprise({
       return;
     }
 
-    // Instantly transition to the next card index smoothly
     setIndex((prev) => prev + 1);
 
-    // Debounce to avoid rapid spam clicks breaking the animation
     setTimeout(() => {
       isAdvancing.current = false;
     }, 400);
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden flex items-center justify-center px-4 py-8 bg-slate-950">
+    // Solid gradient base without massive live-rendering filters
+    <div className="relative min-h-screen overflow-hidden flex items-center justify-center px-4 py-8 bg-gradient-to-tr from-slate-950 via-neutral-900 to-zinc-950 select-none">
 
-      {/* Background Layer with absolute hardware acceleration optimizations */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={backgroundImage}
-            src={backgroundImage}
-            alt=""
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.12 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="w-full h-full object-cover blur-[30px] scale-110 will-change-transform"
-          />
-        </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-fuchsia-950/75 to-violet-950/90" />
-      </div>
+      {/* Decorative Static ambient glow layer (no real-time blur math required) */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.08)_0%,transparent_70%)] pointer-events-none" />
 
-      <FloatingParticles />
+      {/* Main Container Deck */}
+      <div className="relative z-20 rounded-[34px] bg-neutral-900/40 border border-white/5 shadow-[0_30px_80px_rgba(0,0,0,0.6)] p-5 backdrop-blur-sm">
 
-      {/* Glass Deck Container Wrapper */}
-      <div className="relative z-20 rounded-[34px] bg-white/5 border border-white/10 shadow-[0_25px_70px_rgba(0,0,0,0.4)] p-5">
-
-        {/* Click Target Container */}
         <div
           onClick={advanceToNext}
-          className="relative w-[82vw] max-w-[340px] h-[490px] sm:h-[540px] cursor-pointer select-none"
+          className="relative w-[82vw] max-w-[340px] h-[490px] sm:h-[540px] cursor-pointer"
         >
-          {/* Third Base Deck Paper - Tinted off-white to eliminate high-contrast white pops */}
-          <div className="absolute inset-0 rounded-[26px] bg-[#fffef9] border border-pink-200/40 shadow-md z-10 -rotate-6 translate-y-3 scale-95 opacity-80" />
+          {/* Deck Paper Base Stack - Matches primary photo card color signature */}
+          <div className="absolute inset-0 rounded-[26px] bg-[#fffef9] border border-neutral-200/5 shadow-md z-10 -rotate-6 translate-y-3 scale-95 opacity-80" />
+          <div className="absolute inset-0 rounded-[26px] bg-[#fffef9] border border-neutral-200/5 shadow-lg z-20 rotate-3 translate-y-1.5 scale-98 opacity-90" />
 
-          {/* Second Base Deck Paper */}
-          <div className="absolute inset-0 rounded-[26px] bg-[#fffef9] border border-pink-200/40 shadow-lg z-20 rotate-3 translate-y-1.5 scale-98 opacity-90" />
-
-          {/* Current Presentation Frame Layer */}
+          {/* Cards Stack Presentation Core */}
           <AnimatePresence>
             <motion.div
               key={index}
               className="absolute inset-0 z-30 w-full h-full"
               initial={{
                 opacity: 0,
-                scale: 0.85,
-                y: 30,
-                rotate: rotations[index] - 4,
+                scale: 0.92,
+                y: 15,
+                rotate: rotations[index] - 3,
               }}
               animate={{
                 opacity: 1,
@@ -151,15 +124,15 @@ export default function PhotoPopSurprise({
               }}
               exit={{
                 opacity: 0,
-                x: 280,
-                y: -45,
-                rotate: rotations[index] + 16,
-                transition: { duration: 0.35 }
+                x: 300,
+                y: -30,
+                rotate: rotations[index] + 12,
+                transition: { duration: 0.3, ease: "easeIn" }
               }}
               transition={{
                 type: "spring",
-                stiffness: 150,
-                damping: 22,
+                stiffness: 160,
+                damping: 24,
               }}
             >
               <PhotoCard
@@ -173,13 +146,13 @@ export default function PhotoPopSurprise({
           </AnimatePresence>
         </div>
 
-        {/* Dynamic User Instructions */}
+        {/* Action Prompt Tagline */}
         {!showEnding && (
           <div className="absolute -bottom-16 left-0 right-0 flex flex-col items-center pointer-events-none">
             <motion.p
               animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="mt-3 text-xs tracking-[0.25em] text-pink-400 font-semibold"
+              className="mt-3 text-xs tracking-[0.25em] text-neutral-400 font-medium"
             >
               👆 Tap photo or wait...
             </motion.p>
@@ -187,14 +160,14 @@ export default function PhotoPopSurprise({
         )}
       </div>
 
-      {/* Final End Screen Splash Overlay */}
+      {/* Completion Modal Stage */}
       <AnimatePresence>
         {showEnding && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-xl px-6"
+            className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/95 px-6"
           >
             <motion.div
               initial={{ scale: 0.5, opacity: 0 }}
@@ -218,7 +191,7 @@ export default function PhotoPopSurprise({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="mt-5 max-w-sm text-center leading-8 text-gray-300"
+              className="mt-5 max-w-sm text-center leading-8 text-neutral-400"
             >
               Kuch photos ke liye maar khane ko ready hu... bas zinda chhod dena. 🤣🤗🌸
             </motion.p>
@@ -231,7 +204,7 @@ export default function PhotoPopSurprise({
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={onComplete}
-                className="mt-12 rounded-full px-12 py-4 text-lg font-bold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 shadow-[0_15px_50px_rgba(236,72,153,0.35)]"
+                className="mt-12 rounded-full px-12 py-4 text-lg font-bold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 shadow-[0_15px_50px_rgba(236,72,153,0.3)]"
               >
                 Continue ❤️
               </motion.button>
