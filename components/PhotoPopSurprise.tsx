@@ -11,149 +11,77 @@ type Props = {
   onComplete?: () => void;
 };
 
-type Memory  = {
+type Memory = {
   type: "photo" | "video";
   src: string;
   caption: string;
 };
+
 const memories: Memory[] = [
-  {
-    type: "photo",
-    src: "/image2.jpg",
-    caption: "❤️ Beautiful",
-  },
-  {
-      type: "photo",
-      src: "/image3.jpg",
-      caption: "❤️ Beautiful",
-    },
- {
-      type: "photo",
-      src: "/image4.jpg",
-      caption: "❤️ Beautiful",
-    },
-{
-      type: "video",
-      src: "/carDriving.mp4",
-      caption: "🎥 A Special Memory",
-    },
- {
-      type: "photo",
-      src: "/image6.jpg",
-      caption: "❤️ Beautiful",
-    },
- {
-      type: "photo",
-      src: "/image7.jpg",
-      caption: "❤️ Beautiful",
-    },
-{
-        type: "video",
-        src: "/food.mp4",
-        caption: "🎥 A Special Memory",
-      },
-  {
-    type: "photo",
-    src: "/image9.jpg",
-    caption: "🥰 Gorgeous",
-  },
-
-  {
-    type: "photo",
-    src: "/image10.jpg",
-    caption: "✨ Stunning",
-  },
-
-{
-        type: "video",
-        src: "/power.mp4",
-        caption: "🎥 A Special Memory",
-      },
-
-
-
-  // VIDEO HERE
-
-
-
+  { type: "photo", src: "/image2.jpg", caption: "❤️ Beautiful" },
+  { type: "photo", src: "/image3.jpg", caption: "❤️ Beautiful" },
+  { type: "photo", src: "/image4.jpg", caption: "❤️ Beautiful" },
+  { type: "video", src: "/carDriving.mp4", caption: "🎥 A Special Memory" },
+  { type: "photo", src: "/image6.jpg", caption: "❤️ Beautiful" },
+  { type: "photo", src: "/image7.jpg", caption: "❤️ Beautiful" },
+  { type: "video", src: "/food.mp4", caption: "🎥 A Special Memory" },
+  { type: "photo", src: "/image9.jpg", caption: "🥰 Gorgeous" },
+  { type: "photo", src: "/image10.jpg", caption: "✨ Stunning" },
+  { type: "video", src: "/power.mp4", caption: "🎥 A Special Memory" },
 ];
-
 
 const rotations = [-5, 4, -3, 5, -4, 3, -6, 4, -2, 5];
 
-export default function PhotoPopSurprise({
-  onComplete,
-}: Props) {
-
+export default function PhotoPopSurprise({ onComplete }: Props) {
   const [index, setIndex] = useState(0);
-
   const [flash, setFlash] = useState(false);
-
   const [showEnding, setShowEnding] = useState(false);
 
   const timer = useRef<NodeJS.Timeout | null>(null);
   const isAdvancing = useRef(false);
   const currentMemory = memories[index];
+
+  // Derive the active background photo safely
   const backgroundImage =
     memories
       .slice(0, index + 1)
       .reverse()
-      .find((memory) => memory.type === "photo")?.src ?? memories[0].src;
+      .find((m) => m.type === "photo")?.src ?? memories[0].src;
 
-  /* ---------- preload images ---------- */
-
+  /* ---------- Robust Preloading ---------- */
   useEffect(() => {
-
     memories.forEach((item) => {
-
       if (item.type === "photo") {
-
         const img = new Image();
         img.src = item.src;
-
       } else {
-
-        const video = document.createElement("video");
-        video.preload = "auto";
-        video.src = item.src;
-
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.href = item.src;
+        link.as = "video";
+        document.head.appendChild(link);
       }
-
     });
-
   }, []);
 
-  /* ---------- auto timer ---------- */
+  /* ---------- Auto Timer Loop ---------- */
+  useEffect(() => {
+    if (showEnding || currentMemory.type === "video") return;
 
- useEffect(() => {
+    if (timer.current) clearTimeout(timer.current);
 
-   if (showEnding) return;
+    timer.current = setTimeout(() => {
+      advanceToNext(false); // Auto advance doesn't flash
+    }, 4000);
 
-   if (currentMemory.type === "video") return;
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, [index, showEnding, currentMemory.type]);
 
-   if (timer.current) {
-     clearTimeout(timer.current);
-   }
-
-   timer.current = setTimeout(() => {
-     nextPhoto();
-   }, 4000);
-
-   return () => {
-     if (timer.current) {
-       clearTimeout(timer.current);
-     }
-   };
-
- }, [index, showEnding, currentMemory.type]);
-
-  function nextFromVideo() {
-    advanceToNext();
-  }
-
-  function advanceToNext() {
+  /* ---------- Unified Advance Pipeline ---------- */
+  function advanceToNext(triggerFlash = false) {
     if (isAdvancing.current || showEnding) return;
-
     isAdvancing.current = true;
 
     if (index >= memories.length - 1) {
@@ -161,574 +89,177 @@ export default function PhotoPopSurprise({
       return;
     }
 
-    setIndex((previousIndex) => previousIndex + 1);
+    if (triggerFlash) {
+      navigator.vibrate?.(35);
+      setFlash(true);
 
-    // Keep the transition locked while the outgoing card is animating. This
-    // also prevents a trailing video `ended` event from skipping a memory.
-    setTimeout(() => {
-      isAdvancing.current = false;
-    }, 350);
+      // Sync the index change closely with the flash peek to hide structural pop layout shifts
+      setTimeout(() => {
+        setIndex((prev) => prev + 1);
+      }, 60);
+
+      setTimeout(() => {
+        setFlash(false);
+        isAdvancing.current = false;
+      }, 300);
+    } else {
+      // Clean skip path for videos or autoplay transitions
+      setIndex((prev) => prev + 1);
+      setTimeout(() => {
+        isAdvancing.current = false;
+      }, 400);
+    }
   }
 
-  function nextPhoto() {
-    if (isAdvancing.current || showEnding) return;
-
-    // Tapping a video should dismiss it just like a photo. Its native end event
-    // uses the same guarded path, so the two cannot advance twice.
-    if (currentMemory.type === "video") {
-      advanceToNext();
-      return;
-    }
-
-    if (index >= memories.length - 1) {
-      advanceToNext();
-      return;
-    }
-
-    isAdvancing.current = true;
-
-    navigator.vibrate?.(35);
-
-    setFlash(true);
-
-    setTimeout(() => {
-
-      setIndex((i) => i + 1);
-
-    }, 170);
-
-    setTimeout(() => {
-
-      setFlash(false);
-      isAdvancing.current = false;
-
-    }, 320);
-
+  function handleManualTap() {
+    // If it's a video, let the user tap to skip right past it cleanly
+    advanceToNext(currentMemory.type === "photo");
   }
 
-   return (
-
-     <div
-       className="
-         relative
-         min-h-screen
-         overflow-hidden
-
-         flex
-         items-center
-         justify-center
-
-         px-4
-         py-8
-
-         bg-gradient-to-br
-         from-slate-950
-         via-fuchsia-950
-         to-violet-950
-       "
-     >
-
-       {/* Background */}
-
-       <motion.img
-
-         key={backgroundImage}
-
-         src={backgroundImage}
-
-         alt=""
-
-         initial={{ opacity: 0 }}
-
-         animate={{ opacity: .18 }}
-
-         transition={{ duration: .45 }}
-
-         className="
-           absolute
-           inset-0
-
-           w-full
-           h-full
-
-           object-cover
-
-           blur-[45px]
-
-           scale-110
-         "
-
-       />
-
-       <div
-
-         className="
-           absolute
-           inset-0
-
-           bg-gradient-to-br
-
-           from-slate-950/80
-
-           via-fuchsia-950/65
-
-           to-violet-950/80
-         "
-
-       />
-
-       <FloatingParticles />
-
-       <CameraFlash show={flash} />
-
-       {/* Glass */}
-
-       <div
-
-         className="
-           relative
-           z-20
-
-           glass
-
-           rounded-[34px]
-
-           bg-white/20
-
-           border
-           border-white/40
-
-           backdrop-blur-xl
-
-           shadow-[0_25px_70px_rgba(236,72,153,.15)]
-
-           p-5
-         "
-
-       >
-
-         <div
-
-           onClick={nextPhoto}
-
-           className="
-             relative
-
-             w-[82vw]
-
-             max-w-[340px]
-
-             h-[490px]
-
-             sm:h-[540px]
-
-             cursor-pointer
-
-             select-none
-           "
-
-         >
-
-           {/* Third Paper */}
-
-           <motion.div
-
-             animate={{
-
-               rotate:-7,
-
-               y:16,
-
-               scale:.93,
-
-             }}
-
-             className="
-               absolute
-
-               inset-0
-
-               rounded-[26px]
-
-               bg-white
-
-               border
-
-               border-pink-100
-
-               shadow-xl
-
-               z-10
-             "
-
-           />
-
-           {/* Second Paper */}
-
-           <motion.div
-
-             animate={{
-
-               rotate:5,
-
-               y:8,
-
-               scale:.97,
-
-             }}
-
-             className="
-               absolute
-
-               inset-0
-
-               rounded-[26px]
-
-               bg-white
-
-               border
-
-               border-pink-100
-
-               shadow-xl
-
-               z-20
-             "
-
-           />
-
-           {/* Current Photo */}
-
-           <AnimatePresence mode="popLayout">
-
-             <motion.div
-
-               key={index}
-
-               className="absolute inset-0 z-30"
-
-               initial={{
-
-                 opacity:0,
-
-                 scale:.72,
-
-                 y:180,
-
-                 rotate:rotations[index]-8,
-
-               }}
-
-               animate={{
-
-                 opacity:1,
-
-                 scale:1,
-
-                 y:0,
-
-                 rotate:rotations[index],
-
-               }}
-
-               exit={{
-
-                 opacity:0,
-
-                 x:320,
-
-                 y:-220,
-
-                 rotate:rotations[index]+24,
-
-                 scale:.9,
-
-               }}
-
-               transition={{
-
-                 type:"spring",
-
-                 stiffness:120,
-
-                 damping:18,
-
-               }}
-
-               whileTap={{
-
-                 scale:.96,
-
-                 rotate:rotations[index]+3,
-
-               }}
-
-             >
-
-               <PhotoCard
-                 type={memories[index].type}
-                 src={memories[index].src}
-                 caption={memories[index].caption}
-                 rotation={rotations[index]}
-                 onVideoEnd={nextFromVideo}
-               />
-
-             </motion.div>
-
-           </AnimatePresence>
-
-         </div>        {/* Caption */}
-
-                       {!showEnding && (
-
-                         <div
-                           className="
-                             absolute
-
-                             -bottom-16
-
-                             left-0
-                             right-0
-
-                             flex
-                             flex-col
-                             items-center
-                           "
-                         >
-
-                           <motion.p
-
-                             animate={{
-                               opacity: [0.3, 1, 0.3],
-                             }}
-
-                             transition={{
-                               repeat: Infinity,
-                               duration: 2,
-                             }}
-
-                             className="
-                               mt-3
-
-                               text-xs
-
-                               tracking-[0.25em]
-
-                               text-pink-600
-
-                               font-semibold
-                             "
-
-                           >
-
-                             👆 Tap photo or wait...
-
-                           </motion.p>
-
-                         </div>
-
-                       )}
-
-                     </div>
-
-                     {/* Ending */}
-
-                     <AnimatePresence>
-
-                       {showEnding && (
-
-                         <motion.div
-
-                           initial={{
-                             opacity: 0,
-                           }}
-
-                           animate={{
-                             opacity: 1,
-                           }}
-
-                           exit={{
-                             opacity: 0,
-                           }}
-
-                           className="
-                             absolute
-                             inset-0
-                             z-50
-
-                             flex
-                             flex-col
-
-                             items-center
-                             justify-center
-
-                             bg-white/20
-
-                             backdrop-blur-2xl
-
-                             px-6
-                           "
-
-                         >
-
-                           <motion.div
-
-                             initial={{
-                               scale: .5,
-                               opacity: 0,
-                             }}
-
-                             animate={{
-                               scale: 1,
-                               opacity: 1,
-                             }}
-
-                             transition={{
-                               type: "spring",
-                               stiffness: 120,
-                               damping: 12,
-                             }}
-
-                             className="text-8xl"
-
-                           >
-
-                             ❤️
-
-                           </motion.div>
-
-                           <motion.h2
-
-                             initial={{
-                               opacity: 0,
-                               y: 20,
-                             }}
-
-                             animate={{
-                               opacity: 1,
-                               y: 0,
-                             }}
-
-                             transition={{
-                               delay: .3,
-                             }}
-
-                             className="
-                               mt-8
-
-                               text-4xl
-                               sm:text-5xl
-
-                               font-bold
-
-                               text-pink-600
-                             "
-
-                           >
-
-                             Beautiful ❤️
-
-                           </motion.h2>
-
-                           <motion.p
-
-                             initial={{
-                               opacity: 0,
-                             }}
-
-                             animate={{
-                               opacity: 1,
-                             }}
-
-                             transition={{
-                               delay: .6,
-                             }}
-
-                             className="
-                               mt-5
-
-                               max-w-sm
-
-                               text-center
-
-                               leading-8
-
-                               text-gray-700
-                             "
-
-                           >
-
-                             Kuch photos ke liye maar khane ko ready hu... bas zinda chhod dena. 🤣🤗🌸
-
-
-
-                           </motion.p>
-
-                           {onComplete && (
-
-                             <motion.button
-
-                               initial={{
-                                 opacity: 0,
-                                 y: 25,
-                               }}
-
-                               animate={{
-                                 opacity: 1,
-                                 y: 0,
-                               }}
-
-                               transition={{
-                                 delay: 1,
-                               }}
-
-                               whileHover={{
-                                 scale: 1.04,
-                               }}
-
-                               whileTap={{
-                                 scale: .96,
-                               }}
-
-                               onClick={onComplete}
-
-                               className="
-                                 mt-12
-
-                                 rounded-full
-
-                                 px-12
-                                 py-4
-
-                                 text-lg
-                                 font-bold
-
-                                 text-white
-
-                                 bg-gradient-to-r
-                                 from-pink-500
-                                 via-rose-500
-                                 to-purple-500
-
-                                 shadow-[0_15px_50px_rgba(236,72,153,.35)]
-                               "
-
-                             >
-
-                               Continue ❤️
-
-                             </motion.button>
-
-                           )}
-
-                         </motion.div>
-
-                       )}
-
-                     </AnimatePresence>
-
-                   </div>
-
-                 );
-
-               }
+  return (
+    <div className="relative min-h-screen overflow-hidden flex items-center justify-center px-4 py-8 bg-gradient-to-br from-slate-950 via-fuchsia-950 to-violet-950">
+
+      {/* Background (Lowered blur radius to eliminate painting drops) */}
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={backgroundImage}
+          src={backgroundImage}
+          alt=""
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.15 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute inset-0 w-full h-full object-cover blur-[20px] scale-105 pointer-events-none will-change-[opacity]"
+        />
+      </AnimatePresence>
+
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950/80 via-fuchsia-950/65 to-violet-950/80 pointer-events-none" />
+
+      <FloatingParticles />
+      <CameraFlash show={flash} />
+
+      {/* Main Container Wrapper */}
+      <div className="relative z-20 rounded-[34px] bg-white/10 border border-white/20 backdrop-blur-md shadow-[0_25px_70px_rgba(236,72,153,0.1)] p-5">
+
+        <div
+          onClick={handleManualTap}
+          className="relative w-[82vw] max-w-[340px] h-[490px] sm:h-[540px] cursor-pointer select-none"
+        >
+          {/* Third Stack Deck Paper */}
+          <div className="absolute inset-0 rounded-[26px] bg-white border border-pink-100 shadow-xl z-10 -rotate-6 translate-y-4 scale-95 opacity-90" />
+
+          {/* Second Stack Deck Paper */}
+          <div className="absolute inset-0 rounded-[26px] bg-white border border-pink-100 shadow-xl z-20 rotate-3 translate-y-2 scale-98 opacity-95" />
+
+          {/* Current Frame Component */}
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={index}
+              className="absolute inset-0 z-30"
+              initial={{
+                opacity: 0,
+                scale: 0.8,
+                y: 60,
+                rotate: rotations[index] - 5,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                rotate: rotations[index],
+              }}
+              exit={{
+                opacity: 0,
+                x: 240,
+                y: -60,
+                rotate: rotations[index] + 15,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 140,
+                damping: 20,
+              }}
+              whileTap={{
+                scale: 0.97,
+              }}
+            >
+              <PhotoCard
+                type={currentMemory.type}
+                src={currentMemory.src}
+                caption={currentMemory.caption}
+                rotation={rotations[index]}
+                onVideoEnd={() => advanceToNext(false)}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Action Prompt */}
+        {!showEnding && (
+          <div className="absolute -bottom-16 left-0 right-0 flex flex-col items-center pointer-events-none">
+            <motion.p
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="mt-3 text-xs tracking-[0.25em] text-pink-500 font-semibold"
+            >
+              Base tap photo or wait...
+            </motion.p>
+          </div>
+        )}
+      </div>
+
+      {/* Final Splash Screen Screen */}
+      <AnimatePresence>
+        {showEnding && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/90 backdrop-blur-lg px-6"
+          >
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 120, damping: 12 }}
+              className="text-8xl"
+            >
+              ❤️
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mt-8 text-4xl sm:text-5xl font-bold text-pink-500"
+            >
+              Beautiful ❤️
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="mt-5 max-w-sm text-center leading-8 text-gray-300"
+            >
+              Kuch photos ke liye maar khane ko ready hu... bas zinda chhod dena. 🤣🤗🌸
+            </motion.p>
+
+            {onComplete && (
+              <motion.button
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={onComplete}
+                className="mt-12 rounded-full px-12 py-4 text-lg font-bold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 shadow-[0_15px_50px_rgba(236,72,153,0.35)]"
+              >
+                Continue ❤️
+              </motion.button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
