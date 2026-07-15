@@ -32,31 +32,45 @@ const memories: Memory[] = [
       src: "/image4.jpg",
       caption: "❤️ Beautiful",
     },
- {
-      type: "photo",
-      src: "/image5.jpg",
-      caption: "❤️ Beautiful",
-    },
-  {
-    type: "photo",
-    src: "/image6.jpg",
-    caption: "🥰 Gorgeous",
-  },
-   {
+{
       type: "video",
       src: "/carDriving.mp4",
       caption: "🎥 A Special Memory",
     },
+ {
+      type: "photo",
+      src: "/image6.jpg",
+      caption: "❤️ Beautiful",
+    },
+ {
+      type: "photo",
+      src: "/image7.jpg",
+      caption: "❤️ Beautiful",
+    },
+{
+        type: "video",
+        src: "/food.mp4",
+        caption: "🎥 A Special Memory",
+      },
   {
     type: "photo",
-    src: "/image7.jpg",
+    src: "/image9.jpg",
+    caption: "🥰 Gorgeous",
+  },
+
+  {
+    type: "photo",
+    src: "/image10.jpg",
     caption: "✨ Stunning",
   },
-  {
-        type: "photo",
-        src: "/image9.jpg",
-        caption: "✨ Stunning",
-      }
+
+{
+        type: "video",
+        src: "/power.mp4",
+        caption: "🎥 A Special Memory",
+      },
+
+
 
   // VIDEO HERE
 
@@ -644,8 +658,8 @@ export default function PhotoPopSurprise({
 
                            >
 
-                             For few photos maar khane ke liye ready hu ,
-                             Bus zinda chodd dena 🤗🌸
+                             Kuch photos ke liye maar khane ko ready hu... bas zinda chhod dena. 🤣🤗🌸
+
 
 
                            </motion.p>
