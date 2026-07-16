@@ -13,7 +13,7 @@ const memories: Memory[] = [
   { type: "photo", src: "/image2.jpg", caption: "❤️ Beautiful" },
   { type: "photo", src: "/image3.jpg", caption: "❤️ Beautiful" },
   { type: "photo", src: "/image4.jpg", caption: "❤️ Beautiful" },
-  { type: "video", src: "/carDriving.mp4", caption: "🎥 A Special Memory" },
+//   { type: "video", src: "/carDriving.mp4", caption: "🎥 A Special Memory" },
   { type: "photo", src: "/image6.jpg", caption: "❤️ Beautiful" },
   { type: "photo", src: "/image7.jpg", caption: "❤️ Beautiful" },
   { type: "video", src: "/food.mp4", caption: "🎥 A Special Memory" },
