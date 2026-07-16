@@ -171,53 +171,82 @@ export default function PhotoPopSurprise({
       </div>
 
       {/* Ending overlay */}
-      <AnimatePresence>
-        {showEnding && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-xl px-6"
-          >
-            <motion.div
-              initial={{ scale: 0.3, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 100, damping: 10 }}
-              className="text-7xl sm:text-8xl filter drop-shadow-[0_10px_20px_rgba(244,63,94,0.3)] animate-bounce duration-[2000ms]"
-            >
-              ❤️
-            </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mt-6 sm:mt-8 text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400 text-center"
-            >
-              Beautiful ❤️
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mt-4 sm:mt-5 max-w-sm text-center text-base sm:text-lg leading-7 sm:leading-8 text-neutral-300 font-medium"
-            >
-              Kuch photos ke liye maar khane ko ready hu... bas zinda chhod dena. 🤣🤗🌸
-            </motion.p>
-            {onComplete && (
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={onComplete}
-                className="mt-10 sm:mt-12 rounded-full px-10 sm:px-14 py-3.5 sm:py-4 text-base sm:text-lg font-bold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 shadow-[0_15px_45px_rgba(236,72,153,0.4)] active:shadow-[0_15px_60px_rgba(236,72,153,0.6)] transition-shadow [-webkit-tap-highlight-color:transparent]"
-              >
-                Continue ❤️
-              </motion.button>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+     <AnimatePresence>
+       {showEnding && (
+         <motion.div
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           exit={{ opacity: 0 }}
+           className="absolute inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-xl px-5"
+         >
+           {/* Ambient glow behind the card, echoes the page background */}
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] max-w-[480px] max-h-[480px] rounded-full bg-rose-500/10 blur-3xl pointer-events-none [transform:translateZ(0)]" />
+
+           <motion.div
+             initial={{ scale: 0.92, opacity: 0, y: 16 }}
+             animate={{ scale: 1, opacity: 1, y: 0 }}
+             transition={{ type: "spring", stiffness: 140, damping: 18 }}
+             className="relative w-full max-w-sm rounded-[32px] bg-white/[0.04] border border-white/10 shadow-[0_35px_90px_rgba(0,0,0,0.65)] backdrop-blur-md px-8 py-10 flex flex-col items-center text-center"
+           >
+             {/* Corner sparkle accents, matching the deck's understated luxe feel */}
+             <span className="absolute top-6 right-7 text-rose-300/40 text-sm">✦</span>
+             <span className="absolute bottom-8 left-7 text-indigo-300/30 text-xs">✦</span>
+
+             {/* Icon medallion instead of a bare bouncing emoji */}
+             <motion.div
+               initial={{ scale: 0.4, opacity: 0, rotate: -8 }}
+               animate={{ scale: 1, opacity: 1, rotate: 0 }}
+               transition={{ type: "spring", stiffness: 110, damping: 11, delay: 0.1 }}
+               className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-rose-500/20 to-purple-500/20 border border-white/10 shadow-[0_10px_30px_rgba(244,63,94,0.25)]"
+             >
+               <span className="text-4xl drop-shadow-[0_4px_10px_rgba(244,63,94,0.35)]">
+                 ❤️
+               </span>
+             </motion.div>
+
+             <motion.h2
+               initial={{ opacity: 0, y: 12 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.28 }}
+               className="mt-7 text-[34px] sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-300 to-purple-300"
+             >
+               Beautiful ❤️
+             </motion.h2>
+
+             {/* Thin divider, echoes the tape/paper motif's understated detailing */}
+             <motion.div
+               initial={{ opacity: 0, scaleX: 0 }}
+               animate={{ opacity: 1, scaleX: 1 }}
+               transition={{ delay: 0.42, duration: 0.4 }}
+               className="mt-4 h-px w-16 bg-gradient-to-r from-transparent via-rose-300/40 to-transparent"
+             />
+
+             <motion.p
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 0.55 }}
+               className="mt-5 text-[15px] sm:text-base leading-7 text-neutral-300/90 font-medium"
+             >
+               Kuch photos ke liye maar khane ko ready hu... bas zinda chhod dena. 🤣🤗🌸
+             </motion.p>
+
+             {onComplete && (
+               <motion.button
+                 initial={{ opacity: 0, y: 16 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ delay: 0.75 }}
+                 whileTap={{ scale: 0.96 }}
+                 onClick={onComplete}
+                 className="mt-9 w-full rounded-full px-8 py-3.5 text-base font-bold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 shadow-[0_15px_45px_rgba(236,72,153,0.35)] active:shadow-[0_15px_60px_rgba(236,72,153,0.55)] transition-shadow [-webkit-tap-highlight-color:transparent]"
+               >
+                 Continue ❤️
+               </motion.button>
+             )}
+           </motion.div>
+         </motion.div>
+       )}
+     </AnimatePresence>
+
     </div>
   );
 }
