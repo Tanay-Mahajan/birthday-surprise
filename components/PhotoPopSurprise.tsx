@@ -182,8 +182,8 @@ export default function PhotoPopSurprise({
        {showEnding && (
          <motion.div
            initial={{ opacity: 0 }}
-           animate={{ opacity: leaving ? 0 : 1 }}
-           transition={{ duration: leaving ? 0.45 : 0.3 }}
+           animate={{ opacity: 1 }}
+           transition={{ duration: 0.3 }}
            exit={{ opacity: 0 }}
            className="absolute inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-xl px-5"
          >
@@ -192,8 +192,8 @@ export default function PhotoPopSurprise({
 
            <motion.div
              initial={{ scale: 0.92, opacity: 0, y: 16 }}
-             animate={{ scale: 1, opacity: 1, y: 0 }}
-             transition={{ type: "spring", stiffness: 140, damping: 18 }}
+             animate={leaving ? { scale: 0.96, opacity: 0, y: -8 } : { scale: 1, opacity: 1, y: 0 }}
+             transition={leaving ? { duration: 0.4, ease: "easeIn" } : { type: "spring", stiffness: 140, damping: 18 }}
              className="relative w-full max-w-sm rounded-[32px] bg-white/[0.04] border border-white/10 shadow-[0_35px_90px_rgba(0,0,0,0.65)] backdrop-blur-md px-8 py-10 flex flex-col items-center text-center"
            >
              {/* Corner sparkle accents, matching the deck's understated luxe feel */}
