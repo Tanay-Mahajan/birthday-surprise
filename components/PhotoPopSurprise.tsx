@@ -10,18 +10,16 @@ type Memory = {
 };
 
 const memories: Memory[] = [
-  { type: "photo", src: "/image2.jpg", caption: "❤️ Beautiful" },
-  { type: "photo", src: "/image3.jpg", caption: "❤️ Beautiful" },
-  { type: "photo", src: "/image4.jpg", caption: "❤️ Beautiful" },
-  { type: "video", src: "/carDriving.mp4", caption: "🎥 A Special Memory" },
-  { type: "photo", src: "/image6.jpg", caption: "❤️ Beautiful" },
-//   { type: "photo", src: "/image7.jpg", caption: "❤️ Beautiful" },
-  { type: "video", src: "/food.mp4", caption: "🎥 A Special Memory" },
-   { type: "photo", src: "/image8.jpg", caption: "❤️ Beautiful" },
-
-  { type: "photo", src: "/image9.jpg", caption: "🥰 Gorgeous" },
-  { type: "photo", src: "/image10.jpg", caption: "✨ Stunning" },
-  { type: "video", src: "/power.mp4", caption: "🎥 A Special Memory" },
+  { type: "photo", src: "/image2.jpg", caption: "✨ Stunning" },
+  { type: "photo", src: "/image3.jpg", caption: "🥰 Gorgeous" },
+  { type: "photo", src: "/image4.jpg", caption: "Hoye Oye! 😍" },
+  { type: "video", src: "/carDriving.mp4", caption: "Pro Driving 🚗" },
+  { type: "photo", src: "/image6.jpg", caption: "Innocent-ish 😇" },
+  { type: "video", src: "/food.mp4", caption: "Thinkaholic 🤯" },
+  { type: "photo", src: "/image8.jpg", caption: "BusyBee 🐝" },
+  { type: "photo", src: "/image9.jpg", caption: "ShortFuse 😤" },
+  { type: "photo", src: "/image10.jpg", caption: "PretendGrin 😬" },
+  { type: "video", src: "/power.mp4", caption: "Powerpuff 💪✨" },
 ];
 
 const rotations = [-5, 4, -3, 5, -4, 3, -6, 4, -2, 5];

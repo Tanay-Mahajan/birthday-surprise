@@ -18,7 +18,7 @@ import Sparkles from "./Sparkles";
 
 export default function Hero() {
   const [page, setPage] = useState(0);
-  const isFullBleed = page === 1 || page === 7;
+  const isFullBleed = page === 1 || page === 4 || page === 7;
 
   return (
     <main className="birthday-shell relative min-h-[100dvh] w-full overflow-x-hidden">
@@ -37,7 +37,13 @@ export default function Hero() {
       {isFullBleed ? (
         <AnimatePresence mode="wait">
           <motion.div key={page} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-[100dvh] w-full">
-            {page === 1 ? <PhotoPopSurprise onComplete={() => setPage(2)} /> : <FinalThankYou />}
+            {page === 1 && <PhotoPopSurprise onComplete={() => setPage(2)} />}
+            {page === 4 && (
+              <div className="flex min-h-[100dvh] w-full items-center justify-center overflow-x-hidden px-4 py-16">
+                <Letter onContinue={() => setPage(5)} />
+              </div>
+            )}
+            {page === 7 && <FinalThankYou />}
           </motion.div>
         </AnimatePresence>
       ) : (
@@ -64,7 +70,6 @@ export default function Hero() {
 
               {page === 2 && <motion.div key="choice" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><Choice onLetter={() => setPage(4)} onGift={() => setPage(3)} /></motion.div>}
               {page === 3 && <motion.div key="blocked" initial={{ opacity: 0, scale: .97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}><GiftBlocked onContinue={() => setPage(4)} /></motion.div>}
-              {page === 4 && <motion.div key="letter" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><Letter onContinue={() => setPage(5)} /></motion.div>}
               {page === 5 && <motion.div key="gift" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><Gift onReveal={() => setPage(6)} /></motion.div>}
               {page === 6 && (
                 <motion.div key="final" initial={{ opacity: 0, scale: .96 }} animate={{ opacity: 1, scale: 1 }} className="text-center">
