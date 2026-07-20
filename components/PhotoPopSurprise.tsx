@@ -22,7 +22,7 @@ const memories: Memory[] = [
   { type: "video", src: "/power.mp4", caption: "Powerpuff 💪✨" },
 ];
 
-const rotations = [-5, 4, -3, 5, -4, 3, -6, 4, -2, 5];
+const rotations = [-3, 2, -2, 3, -2.5, 2, -3, 2.5, -1.5, 3];
 
 export default function PhotoPopSurprise({
   onComplete,
@@ -121,8 +121,8 @@ export default function PhotoPopSurprise({
           className="relative w-[86vw] max-w-[340px] h-[65vh] max-h-[540px] min-h-[420px] cursor-pointer [-webkit-tap-highlight-color:transparent]"
         >
           {/* Deck paper base stack */}
-          <div className="absolute inset-0 rounded-[24px] sm:rounded-[26px] bg-[#fbfaf5] border border-neutral-200/5 shadow-md z-10 -rotate-6 translate-y-3 scale-95 opacity-80" />
-          <div className="absolute inset-0 rounded-[24px] sm:rounded-[26px] bg-[#fbfaf5] border border-neutral-200/5 shadow-lg z-20 rotate-3 translate-y-1.5 scale-98 opacity-90" />
+          <div className="absolute inset-x-2 top-2 z-10 h-[430px] -rotate-2 rounded-[24px] border border-pink-100/30 bg-[#eee7e5] shadow-md opacity-90 sm:h-[520px] sm:rounded-[26px]" />
+          <div className="absolute inset-x-1 top-1 z-20 h-[423px] rotate-[1.25deg] rounded-[24px] border border-pink-100/40 bg-[#faf4f1] shadow-lg opacity-95 sm:h-[513px] sm:rounded-[26px]" />
 
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.div
