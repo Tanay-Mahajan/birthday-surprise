@@ -1,11 +1,11 @@
 import "./globals.css";
-import { Poppins } from "next/font/google";
 import "@fontsource/caveat";
+import type { Metadata } from "next";
 
-const poppins = Poppins({
-subsets:["latin"],
-weight:["300","400","500","600","700","800"]
-});
+export const metadata: Metadata = {
+  title: "A Little Birthday Surprise ❤️",
+  description: "A small corner of the universe, made just to make you smile.",
+};
 
 export default function RootLayout({
 children,
@@ -15,9 +15,9 @@ children:React.ReactNode;
 
 return(
 
-<html>
+<html lang="en">
 
-<body className={poppins.className}>
+<body>
 
 {children}
 

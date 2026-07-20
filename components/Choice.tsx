@@ -28,7 +28,7 @@ export default function Choice({ onLetter, onGift }: Props) {
         Which one would you like to open first?
       </motion.p>
 
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="mt-7 grid grid-cols-1 sm:mt-10 sm:grid-cols-2 gap-4 sm:gap-5">
 
         {/* Letter Card */}
 
@@ -49,7 +49,7 @@ export default function Choice({ onLetter, onGift }: Props) {
             border
             border-pink-200/30
             shadow-xl
-            p-6
+            p-4 sm:p-6
             transition-all
             order-2
           "
@@ -63,12 +63,12 @@ export default function Choice({ onLetter, onGift }: Props) {
               repeat: Infinity,
               duration: 2,
             }}
-            className="text-6xl"
+            className="text-5xl sm:text-6xl"
           >
             💌
           </motion.div>
 
-          <h3 className="mt-5 text-2xl font-bold text-pink-600">
+          <h3 className="mt-3 text-xl font-bold text-pink-300 sm:mt-5 sm:text-2xl">
             Letter
           </h3>
 
@@ -78,7 +78,7 @@ export default function Choice({ onLetter, onGift }: Props) {
 
           <button
             className="
-              mt-6
+              mt-4 sm:mt-6
               w-full
               rounded-full
               bg-pink-500
@@ -112,7 +112,7 @@ export default function Choice({ onLetter, onGift }: Props) {
             border
             border-pink-200/30
             shadow-xl
-            p-6
+            p-4 sm:p-6
             transition-all
             order-1
           "
@@ -126,22 +126,22 @@ export default function Choice({ onLetter, onGift }: Props) {
               repeat: Infinity,
               duration: 1.5,
             }}
-            className="text-6xl"
+            className="text-5xl sm:text-6xl"
           >
             🎁
           </motion.div>
 
-          <h3 className="mt-5 text-2xl font-bold text-pink-600">
+          <h3 className="mt-3 text-xl font-bold text-violet-300 sm:mt-5 sm:text-2xl">
             Gift
           </h3>
 
           <p className="mt-3 text-gray-600 text-sm sm:text-base">
-            Curious? Let's see what's inside...
+            Curious? Let&apos;s see what&apos;s inside…
           </p>
 
           <button
             className="
-              mt-6
+              mt-4 sm:mt-6
               w-full
               rounded-full
               bg-purple-500
@@ -164,7 +164,7 @@ export default function Choice({ onLetter, onGift }: Props) {
         transition={{ delay: 1 }}
         className="mt-8 text-sm text-gray-500 italic"
       >
-        💡 Hint: One of these choices might make the other even more special...
+        💡 Hint: One of these choices might make the other even more special…
       </motion.p>
 
     </div>

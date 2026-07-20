@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #10071d;
+  --background: #090510;
   --foreground: #fdf4ff;
   --rose: #f472b6;
   --plum: #a78bfa;
@@ -13,11 +13,8 @@ body {
   padding: 0;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  background:
-    radial-gradient(circle at 12% 16%, rgba(236, 72, 153, 0.32), transparent 26rem),
-    radial-gradient(circle at 88% 82%, rgba(124, 58, 237, 0.34), transparent 30rem),
-    linear-gradient(145deg, #0d0618 0%, #1d0b2f 46%, #120c27 100%);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #090510;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--foreground);
 }
 
@@ -27,8 +24,21 @@ body {
 
 body {
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   isolation: isolate;
+}
+
+.journey-progress,
+.music-toggle {
+  margin-top: env(safe-area-inset-top);
+}
+
+@media (max-height: 700px) and (max-width: 640px) {
+  .glass {
+    transform: scale(0.94);
+    transform-origin: center;
+  }
 }
 
 body::before {
@@ -37,9 +47,9 @@ body::before {
   z-index: -1;
   inset: 0;
   pointer-events: none;
-  opacity: 0.42;
-  background-image: radial-gradient(rgba(251, 207, 232, 0.22) 1px, transparent 1px);
-  background-size: 26px 26px;
+  opacity: 0.26;
+  background-image: radial-gradient(rgba(251, 207, 232, 0.32) 0.7px, transparent 0.7px);
+  background-size: 31px 31px;
   mask-image: linear-gradient(to bottom, black, transparent 78%);
 }
 
@@ -108,10 +118,64 @@ button:active {
 
   -webkit-backdrop-filter: blur(24px) saturate(145%);
 
-  background: linear-gradient(135deg, rgba(54, 23, 77, 0.9), rgba(30, 15, 52, 0.78));
+  background: linear-gradient(145deg, rgba(43, 18, 55, 0.82), rgba(18, 10, 31, 0.9));
 
-  border: 1px solid rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.14);
 
+}
+
+.birthday-shell {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(190, 24, 93, 0.25), transparent 28rem),
+    radial-gradient(circle at 82% 76%, rgba(109, 40, 217, 0.26), transparent 32rem),
+    linear-gradient(145deg, #090510 0%, #1a0927 48%, #0b0920 100%);
+}
+
+.font-handwritten {
+  font-family: "Caveat", cursive;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.star-field {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle at 12% 22%, white 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 18%, #fbcfe8 0 1px, transparent 1.5px),
+    radial-gradient(circle at 84% 68%, white 0 1px, transparent 1.5px),
+    radial-gradient(circle at 36% 78%, #ddd6fe 0 1px, transparent 1.5px);
+  background-size: 230px 190px, 310px 260px, 270px 230px, 360px 290px;
+}
+
+.aurora {
+  position: absolute;
+  width: 42rem;
+  height: 42rem;
+  border-radius: 999px;
+  filter: blur(100px);
+  opacity: 0.16;
+  animation: auroraDrift 14s ease-in-out infinite alternate;
+}
+
+.aurora-one {
+  top: -24rem;
+  left: -16rem;
+  background: #fb7185;
+}
+
+.aurora-two {
+  right: -20rem;
+  bottom: -25rem;
+  background: #8b5cf6;
+  animation-delay: -7s;
+}
+
+@keyframes auroraDrift {
+  to { transform: translate3d(4rem, 3rem, 0) scale(1.12); }
 }
 
 .glass .text-gray-700 {

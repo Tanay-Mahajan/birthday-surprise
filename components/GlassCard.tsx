@@ -25,19 +25,17 @@ export default function GlassCard({ children }: Props) {
       className="
         glass
         glow
-        pulse-glow
-
         w-full
         max-w-sm
         sm:max-w-md
-        md:max-w-2xl
+        md:max-w-3xl
 
         mx-auto
 
-        rounded-[34px]
+        rounded-[38px]
 
         px-5
-        py-8
+        py-7
 
         sm:px-8
         sm:py-10
@@ -48,8 +46,9 @@ export default function GlassCard({ children }: Props) {
 
         relative
 
-        overflow-visible
+        overflow-hidden
       "
+      style={{ width: "min(calc(100vw - 24px), 768px)" }}
     >
       {/* Decorative Glow */}
 
@@ -79,7 +78,8 @@ export default function GlassCard({ children }: Props) {
         "
       />
 
-      <div className="pointer-events-none absolute inset-0 rounded-[34px] bg-gradient-to-br from-white/35 via-transparent to-pink-200/15" />
+      <div className="pointer-events-none absolute inset-0 rounded-[38px] bg-gradient-to-br from-white/10 via-transparent to-pink-200/5" />
+      <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white/65 to-transparent" />
 
       <div className="relative z-10">
         {children}

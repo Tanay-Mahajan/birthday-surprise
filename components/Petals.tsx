@@ -25,6 +25,8 @@ export default function Petals() {
       size: 18 + Math.random() * 12,
     }));
 
+    // Generated only after hydration so server and client markup stay identical.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPetals(items);
   }, []);
 

@@ -125,7 +125,7 @@ export default function GiftBlocked({ onContinue }: Props) {
           shadow-xl
         "
       >
-        📖 Okay... I'll Read The Letter
+        📖 Okay… I&apos;ll Read The Letter
       </motion.button>
 
       <motion.p
@@ -145,7 +145,7 @@ export default function GiftBlocked({ onContinue }: Props) {
           text-pink-500
         "
       >
-        Trust me... it's worth reading first ✨
+        Trust me… it&apos;s worth reading first ✨
       </motion.p>
 
     </div>

@@ -21,6 +21,8 @@ export default function FloatingHearts() {
       size: 20 + Math.random() * 18,
     }));
 
+    // Generated only after hydration so server and client markup stay identical.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHearts(items);
   }, []);
 
