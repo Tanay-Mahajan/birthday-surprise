@@ -24,9 +24,7 @@ Jaida time le ke boor nahi karuga , enjoy the birthday 🎂
 
 At the end, ye boluga khush raho bindas raho and khud ke Khushi ke bech jo bhi koi aye remove it (including me) make sure your own happiness is the topmost priority 😉
 
-Kuch khas likha nahi upper se ladke ke baat kar de aur maan khab kar diya , ab to milne se daar lagta hai kya pata itna maaroge , vase bada hu (9 ghante) maroge to paap khud ko lagega 🤣
-
-`;
+Kuch khas likha nahi upper se ladke ke baat kar de aur maan khab kar diya , ab to milne se daar lagta hai kya pata itna maaroge , vase bada hu (9 ghante) maroge to paap khud ko lagega 🤣`;
 
 export default function Letter({ onContinue }: Props) {
   const [opened, setOpened] = useState(false);
@@ -83,14 +81,14 @@ export default function Letter({ onContinue }: Props) {
           initial={{ opacity: 0, y: 100, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.75, ease: "easeOut" }}
-          className="mx-auto flex h-[68dvh] min-h-[470px] max-h-[680px] w-full flex-col overflow-hidden rounded-[24px] border border-pink-200 bg-[#fffdf8] text-[#3f2a45] shadow-2xl sm:rounded-[28px]"
+          className="mx-auto flex h-[74dvh] min-h-[500px] max-h-[720px] w-[calc(100%+24px)] max-w-[700px] flex-col overflow-hidden rounded-[24px] border border-pink-200 bg-[#fffdf8] text-[#3f2a45] shadow-2xl sm:h-[72vh] sm:w-full sm:rounded-[28px]"
         >
           <header className="shrink-0 border-b border-pink-200 px-5 py-3 text-left sm:px-8 sm:py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-rose-400">A note from my heart</p>
             <h2 className="font-handwritten mt-1 text-3xl leading-none text-pink-600 sm:text-4xl">Dear Cutie ❤️</h2>
           </header>
 
-          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 text-left [scrollbar-gutter:stable] sm:px-8 sm:py-6">
+          <div className="min-h-0 flex-1 overflow-y-auto px-5 py-6 text-left [scrollbar-gutter:stable] sm:px-9 sm:py-7">
             {showLetter && (
               <TypeAnimation
                 sequence={[letterText]}
