@@ -6,11 +6,11 @@ import { TypeAnimation } from "react-type-animation";
 
 type Props = { onContinue: () => void };
 
-const letterText = `Happy Birthday Princess!! 🎂❤️
+const letterText = `Happy Birthday Chudail !!! 🎂❤️
 
-Ha madam ji , yrr pata hai meko u want to celebrate the birthday with crackers , balloons , cake and decorations vo tumhare future partner karega itna vo deserve karta hai 😆😅😅 (safeguard 🤣😛)
+Yrr pata hai meko u want to celebrate the birthday with crackers , balloons , cake and decorations vo tumhare future partner karega itna vo deserve karta hai 😆😅😅 (safeguard 🤣😛)
 
-Aaj kal kuch bolne ke liye baacha he nahi hai and we both know the reason as well 😉 and ha bol do yadi baacha he nahi hai to abhi likh he kyu raha hai 😆
+Aaj kal kuch bolne ke liye baacha he nahi hai and we both know the reason as well , it's okay 😉  and ha bol do yadi kuch bolne ko baacha he nahi hai to abhi likh he kyu raha hai 😆
 
 Aur batao , life me itne problems hai sabse big is to get some one special , understand u and its good looking , so on this special birthday occasion , with my whole heart i pray to god ke mila do isse vo insaan se jiske efforts next level rahe , maan me vichar aye , the next moment he completed it aur khub saare achhi acchi photos le 😅 and iske ups and down me sath de , most importantly isko life time ke liye jhal paye 😍 usse bhi important tum khud jhal pao usse 😅
 

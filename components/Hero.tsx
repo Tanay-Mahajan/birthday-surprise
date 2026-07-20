@@ -78,6 +78,7 @@ export default function Hero() {
                   <div className="mt-7 overflow-hidden rounded-[24px] border border-white/15 bg-black/30 p-1.5 shadow-[0_25px_60px_rgba(0,0,0,.45)]">
                     <video controls autoPlay playsInline onEnded={() => setPage(7)} className="max-h-[48dvh] w-full rounded-[19px] object-contain sm:max-h-[52vh]"><source src="/reel.mp4" /></video>
                   </div>
+                  <p className="mt-6 text-sm font-medium text-rose-200/70">Made with ❤️ by Tanay</p>
                 </motion.div>
               )}
             </AnimatePresence>

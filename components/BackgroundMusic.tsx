@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const PHOTO_VOLUME = 0.48;
-const MAIN_VOLUME = 0.42;
+const PHOTO_VOLUME = 0.3;
+const MAIN_VOLUME = 0.3;
 
 export default function BackgroundMusic({ page }: { page: number }) {
   const photoAudioRef = useRef<HTMLAudioElement>(null);
