@@ -93,7 +93,7 @@ export default function Letter({ onContinue }: Props) {
                 sequence={[letterText]}
                 wrapper="div"
                 cursor
-                speed={88}
+                speed={70}
                 className="font-handwritten w-full max-w-full whitespace-pre-line break-words text-left text-[21px] leading-7 tracking-[0.01em] sm:text-[23px] sm:leading-8"
               />
             )}

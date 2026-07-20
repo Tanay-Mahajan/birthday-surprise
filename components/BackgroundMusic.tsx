@@ -44,6 +44,15 @@ export default function BackgroundMusic({ page }: { page: number }) {
 
     main.volume = MAIN_VOLUME;
     void main.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+
+    if (page === 7) {
+      const stopTimer = window.setTimeout(() => {
+        main.pause();
+        setPlaying(false);
+      }, 4000);
+
+      return () => window.clearTimeout(stopTimer);
+    }
   }, [page, unlocked, muted]);
 
   function toggle(e: React.MouseEvent) {
