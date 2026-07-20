@@ -31,6 +31,7 @@ export default function PhotoPopSurprise({
 }) {
   const [index, setIndex] = useState(0);
   const [showEnding, setShowEnding] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const isAdvancing = useRef(false);
 
@@ -93,6 +94,12 @@ export default function PhotoPopSurprise({
     setTimeout(() => {
       isAdvancing.current = false;
     }, 500);
+  }
+
+  function continueToChoice() {
+    if (!onComplete || leaving) return;
+    setLeaving(true);
+    window.setTimeout(onComplete, 500);
   }
 
   return (
@@ -175,7 +182,8 @@ export default function PhotoPopSurprise({
        {showEnding && (
          <motion.div
            initial={{ opacity: 0 }}
-           animate={{ opacity: 1 }}
+           animate={{ opacity: leaving ? 0 : 1 }}
+           transition={{ duration: leaving ? 0.45 : 0.3 }}
            exit={{ opacity: 0 }}
            className="absolute inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-xl px-5"
          >
@@ -236,7 +244,8 @@ export default function PhotoPopSurprise({
                  animate={{ opacity: 1, y: 0 }}
                  transition={{ delay: 0.75 }}
                  whileTap={{ scale: 0.96 }}
-                 onClick={onComplete}
+                 onClick={continueToChoice}
+                 disabled={leaving}
                  className="mt-9 w-full rounded-full px-8 py-3.5 text-base font-bold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 shadow-[0_15px_45px_rgba(236,72,153,0.35)] active:shadow-[0_15px_60px_rgba(236,72,153,0.55)] transition-shadow [-webkit-tap-highlight-color:transparent]"
                >
                  Continue ❤️

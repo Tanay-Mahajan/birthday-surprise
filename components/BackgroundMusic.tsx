@@ -29,21 +29,51 @@ export default function BackgroundMusic({ page }: { page: number }) {
     const main = mainAudioRef.current;
     if (!photo || !main) return;
 
-    photo.pause();
-    main.pause();
-    setPlaying(false);
-
-    if (!unlocked || muted || page === 0) return;
+    if (!unlocked || muted || page === 0) {
+      photo.pause();
+      main.pause();
+      // Playback state mirrors the two imperative media elements here.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setPlaying(false);
+      return;
+    }
 
     if (page === 1) {
+      main.pause();
       photo.currentTime = 0;
       photo.volume = PHOTO_VOLUME;
       void photo.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
       return;
     }
 
+    if (page === 2) {
+      const photoStartVolume = photo.volume;
+      const startedAt = performance.now();
+      main.volume = 0;
+      void main.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+
+      const crossfadeTimer = window.setInterval(() => {
+        const progress = Math.min((performance.now() - startedAt) / 900, 1);
+        photo.volume = photoStartVolume * (1 - progress);
+        main.volume = MAIN_VOLUME * progress;
+
+        if (progress >= 1) {
+          window.clearInterval(crossfadeTimer);
+          photo.pause();
+          photo.currentTime = 0;
+        }
+      }, 40);
+
+      return () => window.clearInterval(crossfadeTimer);
+    }
+
+    photo.pause();
     main.volume = MAIN_VOLUME;
-    void main.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    if (main.paused) {
+      void main.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    } else {
+      setPlaying(true);
+    }
 
     if (page === 7) {
       const stopTimer = window.setTimeout(() => {
