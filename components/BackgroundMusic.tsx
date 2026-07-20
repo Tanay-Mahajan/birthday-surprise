@@ -2,94 +2,72 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function BackgroundMusic() {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const hasInteracted = useRef(false);
+const PHOTO_VOLUME = 0.48;
+const MAIN_VOLUME = 0.42;
+
+export default function BackgroundMusic({ page }: { page: number }) {
+  const photoAudioRef = useRef<HTMLAudioElement>(null);
+  const mainAudioRef = useRef<HTMLAudioElement>(null);
+  const [unlocked, setUnlocked] = useState(false);
+  const [muted, setMuted] = useState(false);
   const [playing, setPlaying] = useState(false);
 
+  // Browsers allow sound only after a real user gesture. The opening button
+  // provides that gesture; the correct track then starts for the current page.
   useEffect(() => {
-    // This function forces the music to play on the absolute first user interaction
-    const forceAutoplay = () => {
-      if (hasInteracted.current) return;
-
-      if (audioRef.current) {
-        audioRef.current
-          .play()
-          .then(() => {
-            setPlaying(true);
-            hasInteracted.current = true;
-            cleanUpListeners();
-          })
-          .catch((error) => {
-            // If browser still blocks it, it will retry on the next movement
-            console.log("Autoplay blocked, waiting for distinct gesture...", error);
-          });
-      }
+    const unlock = () => setUnlocked(true);
+    window.addEventListener("pointerdown", unlock, { once: true });
+    window.addEventListener("keydown", unlock, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
     };
-
-    const cleanUpListeners = () => {
-      window.removeEventListener("click", forceAutoplay);
-      window.removeEventListener("touchstart", forceAutoplay);
-      window.removeEventListener("pointerdown", forceAutoplay);
-      window.removeEventListener("keydown", forceAutoplay);
-    };
-
-    // Listen to every possible way a user wakes up or interacts with a page
-    window.addEventListener("click", forceAutoplay);
-    window.addEventListener("touchstart", forceAutoplay);
-    window.addEventListener("pointerdown", forceAutoplay);
-    window.addEventListener("keydown", forceAutoplay);
-
-    // Try playing immediately on mount (works if they already interacted with a previous page)
-    if (audioRef.current) {
-      audioRef.current.play()
-        .then(() => {
-          setPlaying(true);
-          hasInteracted.current = true;
-          cleanUpListeners();
-        })
-        .catch(() => {});
-    }
-
-    return () => cleanUpListeners();
   }, []);
 
-  function toggle(e: React.MouseEvent) {
-    // Stop propagation so global document listeners don't fight with the button toggle
-    e.stopPropagation();
+  useEffect(() => {
+    const photo = photoAudioRef.current;
+    const main = mainAudioRef.current;
+    if (!photo || !main) return;
 
-    if (!audioRef.current) return;
+    photo.pause();
+    main.pause();
+    setPlaying(false);
 
-    hasInteracted.current = true;
+    if (!unlocked || muted || page === 0) return;
 
-    if (playing) {
-      audioRef.current.pause();
-      setPlaying(false);
-    } else {
-      audioRef.current
-        .play()
-        .then(() => {
-          setPlaying(true);
-        })
-        .catch((err) => console.log("Playback error:", err));
+    if (page === 1) {
+      photo.currentTime = 0;
+      photo.volume = PHOTO_VOLUME;
+      void photo.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+      return;
     }
+
+    main.volume = MAIN_VOLUME;
+    void main.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+  }, [page, unlocked, muted]);
+
+  function toggle(e: React.MouseEvent) {
+    e.stopPropagation();
+    setUnlocked(true);
+    setMuted((value) => !value);
   }
 
   return (
     <>
       <audio
-        ref={audioRef}
-        loop
-        src="/music.mp3"
+        ref={photoAudioRef}
+        src="/photos-music.m4a"
         preload="auto"
+        onEnded={() => setPlaying(false)}
       />
+      <audio ref={mainAudioRef} loop src="/music.mp3" preload="auto" />
 
       <button
         onClick={toggle}
         className="music-toggle fixed right-3 top-3 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-pink-200/30 bg-slate-950/70 text-base text-white shadow-xl backdrop-blur-md transition-transform hover:scale-110 active:scale-95 select-none sm:right-5 sm:top-5 sm:h-13 sm:w-13 sm:text-xl"
-        aria-label={playing ? "Mute Music" : "Unmute Music"}
+        aria-label={muted ? "Play music" : "Mute music"}
       >
-        {playing ? "🔊" : "🔈"}
+        {!muted && playing ? "🔊" : "🔈"}
       </button>
     </>
   );

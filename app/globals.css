@@ -29,7 +29,6 @@ body {
   isolation: isolate;
 }
 
-.journey-progress,
 .music-toggle {
   margin-top: env(safe-area-inset-top);
 }

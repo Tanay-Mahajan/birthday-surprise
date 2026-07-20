@@ -16,15 +16,13 @@ import Petals from "./Petals";
 import PhotoPopSurprise from "./PhotoPopSurprise";
 import Sparkles from "./Sparkles";
 
-const chapterLabels = ["For you", "Memories", "A choice", "Wait…", "My letter", "Your gift", "One last thing", "Always"];
-
 export default function Hero() {
   const [page, setPage] = useState(0);
   const isFullBleed = page === 1 || page === 7;
 
   return (
     <main className="birthday-shell relative min-h-[100dvh] w-full overflow-x-hidden">
-      <BackgroundMusic />
+      <BackgroundMusic page={page} />
 
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="aurora aurora-one" />
@@ -35,22 +33,6 @@ export default function Hero() {
         <FloatingBalloons />
         <Sparkles />
       </div>
-
-      {page > 0 && page < 7 && (
-        <div className="journey-progress fixed left-4 right-20 top-4 z-40 sm:left-1/2 sm:right-auto sm:w-[420px] sm:-translate-x-1/2" aria-label={`Chapter ${page + 1} of 8: ${chapterLabels[page]}`}>
-          <div className="mb-2 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.22em] text-rose-100/70">
-            <span>{chapterLabels[page]}</span>
-            <span>{page + 1} / 8</span>
-          </div>
-          <div className="h-1 overflow-hidden rounded-full bg-white/10 ring-1 ring-white/10">
-            <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-rose-300 via-pink-400 to-violet-400"
-              animate={{ width: `${((page + 1) / 8) * 100}%` }}
-              transition={{ type: "spring", stiffness: 100, damping: 18 }}
-            />
-          </div>
-        </div>
-      )}
 
       {isFullBleed ? (
         <AnimatePresence mode="wait">
