@@ -60,7 +60,7 @@ export default function BackgroundMusic({ page }: { page: number }) {
         preload="auto"
         onEnded={() => setPlaying(false)}
       />
-      <audio ref={mainAudioRef} loop src="/music.mp3" preload="auto" />
+      <audio ref={mainAudioRef} loop src="/music.m4a" preload="auto" />
 
       <button
         onClick={toggle}

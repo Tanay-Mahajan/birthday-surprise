@@ -24,7 +24,7 @@ export default function Hero() {
     <main className="birthday-shell relative min-h-[100dvh] w-full overflow-x-hidden">
       <BackgroundMusic page={page} />
 
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="aurora aurora-one" />
         <div className="aurora aurora-two" />
         <div className="star-field" />
@@ -36,7 +36,7 @@ export default function Hero() {
 
       {isFullBleed ? (
         <AnimatePresence mode="wait">
-          <motion.div key={page} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-[100dvh] w-full">
+          <motion.div key={page} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="relative z-20 min-h-[100dvh] w-full">
             {page === 1 && <PhotoPopSurprise onComplete={() => setPage(2)} />}
             {page === 4 && (
               <div className="flex min-h-[100dvh] w-full items-center justify-center overflow-x-hidden px-4 py-16">
