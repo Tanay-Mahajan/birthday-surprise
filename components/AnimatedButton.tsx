@@ -20,7 +20,8 @@ export default function AnimatedButton({
       }}
       onClick={onClick}
       className="
-      mt-8 inline-flex items-center gap-3
+      premium-button
+      mt-8 inline-flex items-center justify-center gap-3
       px-8 sm:px-10
       py-3.5 sm:py-4
       rounded-full
@@ -35,9 +36,12 @@ export default function AnimatedButton({
       ring-1
       ring-white/30
       hover:shadow-[0_18px_50px_rgba(219,39,119,.5)]
+      min-h-12
+      overflow-hidden
+      relative
       "
     >
-      {children}
+      <span className="relative z-10 inline-flex items-center gap-3">{children}</span>
     </motion.button>
   );
 }

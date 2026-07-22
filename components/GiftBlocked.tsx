@@ -8,7 +8,8 @@ type Props = {
 
 export default function GiftBlocked({ onContinue }: Props) {
   return (
-    <div className="w-full max-w-md mx-auto text-center">
+    <div className="relative w-full max-w-md mx-auto text-center">
+      <div aria-hidden="true" className="pointer-events-none absolute -inset-x-4 top-10 h-40 rounded-full bg-pink-400/10 blur-3xl" />
 
       {/* Animated Gift */}
 
@@ -21,7 +22,7 @@ export default function GiftBlocked({ onContinue }: Props) {
           repeat: Infinity,
           duration: 1.5,
         }}
-        className="text-7xl"
+        className="relative mx-auto flex h-28 w-28 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-7xl shadow-[0_22px_60px_rgba(236,72,153,.2)]"
       >
         🎁
       </motion.div>
@@ -122,7 +123,9 @@ export default function GiftBlocked({ onContinue }: Props) {
           py-4
           text-lg
           font-bold
-          shadow-xl
+          shadow-[0_16px_42px_rgba(236,72,153,.32)]
+          ring-1
+          ring-white/25
         "
       >
         📖 Okay… I&apos;ll Read The Letter

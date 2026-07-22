@@ -23,6 +23,7 @@ const memories: Memory[] = [
 ];
 
 const rotations = [-3, 2, -2, 3, -2.5, 2, -3, 2.5, -1.5, 3];
+const PHOTO_CHANGE_DELAY_MS = 4000;
 
 export default function PhotoPopSurprise({
   onComplete,
@@ -74,7 +75,7 @@ export default function PhotoPopSurprise({
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       advanceToNext();
-    }, 4000);
+    }, PHOTO_CHANGE_DELAY_MS);
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };

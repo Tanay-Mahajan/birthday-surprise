@@ -8,7 +8,7 @@ type Props = { onContinue: () => void };
 
 const letterText = `Happy Birthday Chudail !!! 🎂❤️
 
-Yrr pata hai meko u want to celebrate the birthday with crackers , balloons , cake and decorations vo tumhare future partner karega itna vo deserve karta hai 😆😅😅 (safeguard 🤣😛)
+yrr, Fistly I hope u like this small cute website , pata hai its not your type of celebration phir bhi finger cross 🤞, i know u want to celebrate the birthday with crackers , balloons , cake and decorations vo tumhare future partner karega itna vo deserve karta hai (safeguard 🤣😛)
 
 Aaj kal kuch bolne ke liye baacha he nahi hai and we both know the reason as well , it's okay 😉  and ha bol do yadi kuch bolne ko baacha he nahi hai to abhi likh he kyu raha hai 😆
 
@@ -24,7 +24,7 @@ Jaida time le ke boor nahi karuga , enjoy the birthday 🎂
 
 At the end, ye boluga khush raho bindas raho and khud ke Khushi ke bech jo bhi koi aye remove it (including me) make sure your own happiness is the topmost priority 😉
 
-Kuch khas likha nahi upper se ladke ke baat kar de aur maan khab kar diya , ab to milne se daar lagta hai kya pata itna maaroge , vase bada hu (9 ghante) maroge to paap khud ko lagega 🤣`;
+Kuch khas likha nahi upper se ladke ke baat kar de yaha pe bhi aur maan khab kar diya , ab to milne se daar lagta hai kya pata itna maaroge , vase bada hu (9 ghante) maroge to paap khud ko lagega 🤣`;
 
 export default function Letter({ onContinue }: Props) {
   const [opened, setOpened] = useState(false);

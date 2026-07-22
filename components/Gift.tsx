@@ -39,7 +39,8 @@ export default function Gift({ onReveal }: GiftProps) {
   }
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg mx-auto text-center px-4">
+    <div className="relative w-full max-w-md sm:max-w-lg mx-auto text-center px-4">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-8 top-20 h-40 rounded-full bg-rose-400/10 blur-3xl" />
       {showConfetti && (
         <Confetti
           recycle={false}
@@ -85,12 +86,12 @@ export default function Gift({ onReveal }: GiftProps) {
                 duration: 1.5,
                 ease: "easeInOut"
               }}
-              className="w-48 h-48 sm:w-56 sm:h-56 select-none mt-8"
+            className="relative w-48 h-48 sm:w-56 sm:h-56 select-none mt-8 rounded-[28px] bg-white/10 p-2 shadow-[0_24px_60px_rgba(0,0,0,.24)] ring-1 ring-white/20"
             >
               <img
                 src="/image1.jpg"
                 alt="Surprise Preview"
-                className="w-full h-full object-cover rounded-2xl shadow-xl border-4 border-white"
+                className="w-full h-full object-cover rounded-[22px] shadow-xl border-4 border-white"
               />
             </motion.div>
 
@@ -122,7 +123,7 @@ export default function Gift({ onReveal }: GiftProps) {
                 duration: 0.6,
                 repeatDelay: 2,
               }}
-              className="text-[120px] select-none leading-none"
+              className="mx-auto flex h-36 w-36 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-[112px] select-none leading-none shadow-[0_24px_70px_rgba(236,72,153,.24)]"
             >
               🎁
             </motion.div>
@@ -162,7 +163,7 @@ export default function Gift({ onReveal }: GiftProps) {
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ repeat: Infinity, duration: 2 }}
               onClick={revealGift}
-              className="mt-10 w-full rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 py-4 text-white text-lg sm:text-xl font-bold shadow-2xl"
+              className="premium-button relative mt-10 w-full overflow-hidden rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-purple-500 py-4 text-white text-lg sm:text-xl font-bold shadow-[0_18px_50px_rgba(236,72,153,.36)] ring-1 ring-white/25"
             >
               🎁 Reveal My Surprise ❤️
             </motion.button>
