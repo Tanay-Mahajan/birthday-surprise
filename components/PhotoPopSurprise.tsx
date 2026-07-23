@@ -23,7 +23,7 @@ const memories: Memory[] = [
 ];
 
 const rotations = [-3, 2, -2, 3, -2.5, 2, -3, 2.5, -1.5, 3];
-const PHOTO_CHANGE_DELAY_MS = 7000;
+const PHOTO_CHANGE_DELAY_MS = 5000;
 
 export default function PhotoPopSurprise({
   onComplete,
