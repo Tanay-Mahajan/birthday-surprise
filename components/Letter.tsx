@@ -6,25 +6,27 @@ import { TypeAnimation } from "react-type-animation";
 
 type Props = { onContinue: () => void };
 
-const letterText = `Happy Birthday Chudail !!! 🎂❤️
+const letterText = `Yrr, pata nahi ye small cute website tumko pasand ayegi ke nahi but badi mehnat and dil se banai hai finger cross 🤞, also i know u want to celebrate the birthday with crackers , balloons , cake and decorations vo tumhare future partner karega itna vo deserve karta hai 😆😅😅 (safeguard 🤣😛)
 
-yrr, Fistly I hope u like this small cute website , pata hai its not your type of celebration phir bhi finger cross 🤞, i know u want to celebrate the birthday with crackers , balloons , cake and decorations vo tumhare future partner karega itna vo deserve karta hai (safeguard 🤣😛)
+                    Secondly,  dosti me ye nahi bolna chahiye but today I will say to u a very very big big thank you for all your kindness 😊,  life itni boring chal rahi usme support karna and jhelna upper se multiple times galti, hurt kiya usme bhi forgive karna , a very big dhaynwad madam ji 😊 😀
 
-Aaj kal kuch bolne ke liye baacha he nahi hai and we both know the reason as well , it's okay 😉  and ha bol do yadi kuch bolne ko baacha he nahi hai to abhi likh he kyu raha hai 😆
+                    Iska mtlb ye nahi hai ke ab nahi karuga ab aur irritate and pareshan karuga 🤣😅🤣
 
-Aur batao , life me itne problems hai sabse big is to get some one special , understand u and its good looking , so on this special birthday occasion , with my whole heart i pray to god ke mila do isse vo insaan se jiske efforts next level rahe , maan me vichar aye , the next moment he completed it aur khub saare achhi acchi photos le 😅 and iske ups and down me sath de , most importantly isko life time ke liye jhal paye 😍 usse bhi important tum khud jhal pao usse 😅
+                    Aur batao , life me itne problems hai sabse big is to get some one special , understand u and its good looking , so on this special birthday occasion , with my whole heart i pray to god ke mila do isse vo insaan se jiske efforts next level rahe , maan me vichar aye , the next moment he completed it aur khub saare achhi acchi photos le 😅 and iske ups and down me sath de , most importantly isko life time ke liye jhal paye 😍 usse bhi important tum khud jhal pao usse 😅
 
-Mere liye bhi kuch prayer kar lena 🙏 bahut khali khali sa ho gaya hu 🥲
+                    Mere liye bhi kuch prayer kar lena 🙏 bahut khali khali sa ho gaya hu 🥲
 
-Ye website bananae me 10-12 din lage hai 😢 aur thik thak to baan he gayi hai 😆 , nice business opportunity i can start the business mst paisa he paisa hoyega 😄
+                    Ye website bananae me 10-12 din lage hai 😢 aur thik thak to baan he gayi hai 😆 , nice business opportunity i can start the business mst paisa he paisa hoyega 😄
 
-Aur ha tumko laga meko excitement nahi hai , but thi just that i didn’t show it as usual 😄
+                    Aur ha tumko laga meko excitement nahi hai , but thi just that i didn’t show it as usual 😄
 
-Jaida time le ke boor nahi karuga , enjoy the birthday 🎂
+                    Jaida time le ke boor nahi karuga , enjoy the birthday 🎂
 
-At the end, ye boluga khush raho bindas raho and khud ke Khushi ke bech jo bhi koi aye remove it (including me) make sure your own happiness is the topmost priority 😉
+                    At the end, ye boluga khush raho bindas raho and khud ke Khushi ke bech jo bhi koi aye remove it make sure your own happiness is the topmost priority 😉
 
-Kuch khas likha nahi upper se ladke ke baat kar de yaha pe bhi aur maan khab kar diya , ab to milne se daar lagta hai kya pata itna maaroge , vase bada hu (9 ghante) maroge to paap khud ko lagega 🤣`;
+                    Kuch khas likha nahi upper se ladke ke baat kar de aur maan kharb kar diya , ab to milne se daar lagta hai kya pata itna maaroge , vase bada hu (9 ghante) maroge to paap khud ko lagega 🤣
+
+                    See u , Byee`;
 
 export default function Letter({ onContinue }: Props) {
   const [opened, setOpened] = useState(false);
