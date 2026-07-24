@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "A Little Birthday Surprise ❤️",
-  description: "A small corner of the universe, made just to make you smile.",
+  description: "",
 };
 
 export default function RootLayout({
