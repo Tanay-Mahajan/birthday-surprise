@@ -58,7 +58,7 @@ export default function Hero() {
                   </motion.div>
 
                   <p className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] text-pink-300">A Little Surprise</p>
-                  <h1 className="mt-3 text-balance text-[2.6rem] font-bold leading-tight text-white sm:text-5xl">Hey Anupriya ❤️</h1>
+                  <h1 className="mt-3 text-balance text-[2.6rem] font-bold leading-tight text-white sm:text-5xl">Hey Cutie ❤️</h1>
                   <p className="mt-5 text-lg text-purple-100/85 sm:text-xl">Today is our birthday 🎉</p>
                   <p className="mt-2 text-sm text-purple-100/60 sm:text-base">A small website, just to make you smile ✨</p>
 
