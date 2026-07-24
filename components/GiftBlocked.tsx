@@ -85,10 +85,9 @@ export default function GiftBlocked({ onContinue }: Props) {
           leading-7
         "
       >
-        Pehle meri mehnat se likha hua
-        <br />
-        birthday letter toh padh lo...
-        ❤️
+        Gift kahin nahi jaa raha...
+       <br />Pehle birthday letter padh lo. ❤️
+
       </motion.p>
 
       <motion.div

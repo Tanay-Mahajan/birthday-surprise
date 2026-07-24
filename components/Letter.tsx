@@ -6,7 +6,9 @@ import { TypeAnimation } from "react-type-animation";
 
 type Props = { onContinue: () => void };
 
-const letterText = `Yrr, pata nahi ye small cute website tumko pasand ayegi ke nahi but badi mehnat and dil se banai hai finger cross 🤞, also i know u want to celebrate the birthday with crackers , balloons , cake and decorations vo tumhare future partner karega itna vo deserve karta hai 😆😅😅 (safeguard 🤣😛)
+const letterText = `Happy Birthday Chudail 🎉🎂
+
+Yrr, pata nahi ye small cute website tumko pasand ayegi ke nahi but badi mehnat and dil se banai hai finger cross 🤞, also i know u want to celebrate the birthday with crackers , balloons , cake and decorations vo tumhare future partner karega itna vo deserve karta hai 😆😅😅 (safeguard 🤣😛)
 
                     Secondly,  dosti me ye nahi bolna chahiye but today I will say to u a very very big big thank you for all your kindness 😊,  life itni boring chal rahi usme support karna and jhelna upper se multiple times galti, hurt kiya usme bhi forgive karna , a very big dhaynwad madam ji 😊 😀
 

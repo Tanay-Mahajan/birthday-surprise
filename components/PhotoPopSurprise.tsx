@@ -10,8 +10,8 @@ type Memory = {
 };
 
 const memories: Memory[] = [
-  { type: "photo", src: "/image2.jpg", caption: "✨ Stunning" },
-  { type: "photo", src: "/image3.jpg", caption: "🥰 Gorgeous" },
+  { type: "photo", src: "/image2.jpg", caption: "Stunning ✨" },
+  { type: "photo", src: "/image3.jpg", caption: "Gorgeous 🥰 " },
   { type: "photo", src: "/image4.jpg", caption: "Hoye Oye! 😍" },
   { type: "video", src: "/carDriving.mp4", caption: "Pro Driving 🚗" },
   { type: "photo", src: "/image6.jpg", caption: "Innocent-ish 😇" },

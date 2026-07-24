@@ -172,7 +172,6 @@ export default function Choice({ onLetter, onGift }: Props) {
         transition={{ delay: 1 }}
         className="mt-8 text-sm text-gray-500 italic"
       >
-        💡 Hint: One of these choices might make the other even more special…
       </motion.p>
 
     </div>
